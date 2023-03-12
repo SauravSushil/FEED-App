@@ -1,4 +1,4 @@
-# feed
+# Feed
 
 A new Flutter project.
 
