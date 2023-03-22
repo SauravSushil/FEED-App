@@ -5,8 +5,10 @@ import 'login_page.dart';
 import 'registeration_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'home_page.dart';
+import 'maps.dart';
 import 'Donatepage.dart';
 import 'DonateHome.dart';
+//import 'dart:html';
 
 //import 'dart:js';
 
@@ -25,7 +27,7 @@ class FEED extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
-      initialRoute: "LoginPage",
+      initialRoute: "MapsPage",
       routes: {
         "LoginPage": (context) => const LoginPage(),
         "RegistrationPage": (context) => const RegistrationPage(),
@@ -35,6 +37,7 @@ class FEED extends StatelessWidget {
         //"ReceiverHome": ((context) => ReceiverHome()),
         "ReceiverPage": (context) => const ReceiverPage(),
         "DonationsPage": (context) => const DonationsPage(),
+        "MapsPage": (context) => MapsPage()
       },
     );
   }
