@@ -20,10 +20,12 @@ class _DonatePageState extends State<DonatePage> {
 
   final TextEditingController _foodTypeController = TextEditingController();
   final TextEditingController _foodAmtController = TextEditingController();
-  final TextEditingController _pLocationController = TextEditingController();
-  final TextEditingController _dLocationController = TextEditingController();
-  final TextEditingController _pTimeController = TextEditingController();
+  final TextEditingController _donorController = TextEditingController();
   final TextEditingController _phNumController = TextEditingController();
+  final TextEditingController _pTimeController = TextEditingController();
+  final TextEditingController _pDateController = TextEditingController();
+  final TextEditingController _pLocationController = TextEditingController();
+
 
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
 
@@ -54,16 +56,24 @@ class _DonatePageState extends State<DonatePage> {
                   ),
                 ),
                 TextField(
-                  controller: _pLocationController,
-                  decoration: const InputDecoration(labelText: 'Pickup Location'),
+                  controller: _donorController,
+                  decoration: const InputDecoration(labelText: 'Donor'),
                 ),
                 TextField(
-                  controller: _dLocationController,
+                  controller: _phNumController,
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
+                ),
+                TextField(
+                  controller: _pDateController,
                   decoration: const InputDecoration(labelText: 'Drop Location'),
                 ),
                 TextField(
                   controller: _pTimeController,
                   decoration: const InputDecoration(labelText: 'Pickup Time'),
+                ),
+                TextField(
+                  controller: _pLocationController,
+                  decoration: const InputDecoration(labelText: 'Pickup Location'),
                 ),
                 const SizedBox(
                   height: 20,
@@ -73,7 +83,7 @@ class _DonatePageState extends State<DonatePage> {
                   onPressed: () async {
                     final String foodType = _foodTypeController.text;
                     final String pLocation = _pLocationController.text;
-                    final String dLocation = _dLocationController.text;
+                    final String pDate = _pDateController.text;
                     final String pTime = _pTimeController.text;
                     final String phNum = _phNumController.text;
                     final double? foodAmt =
@@ -84,7 +94,7 @@ class _DonatePageState extends State<DonatePage> {
                       _foodTypeController.text = '';
                       _foodAmtController.text = '';
                       _pLocationController.text = '';
-                      _dLocationController.text = '';
+                      _pDateController.text = '';
                       _pTimeController.text = '';
                       _phNumController.text = '';
                       Navigator.of(context).pop();
@@ -140,11 +150,6 @@ class _DonatePageState extends State<DonatePage> {
               const SizedBox(
                 height: 20,
               ),
-
-              const SizedBox(
-                height: 10,
-              ),
-
               //contact info
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -184,7 +189,7 @@ class _DonatePageState extends State<DonatePage> {
                         child: TextField(
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Description of food'),
+                              hintText: 'Food Type'),
                         ),
                       ),
                     )),
@@ -208,7 +213,7 @@ class _DonatePageState extends State<DonatePage> {
                       padding: EdgeInsets.all(12),
                       child: TextField(
                         decoration: InputDecoration(
-                            border: InputBorder.none, hintText: 'Your Address'),
+                            border: InputBorder.none, hintText: 'Pickup Location'),
                       ),
                     ),
                   ),

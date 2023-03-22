@@ -18,8 +18,8 @@ class _DonationsPageState extends State<DonationsPage>{
   final TextEditingController _donorController = TextEditingController();
   final TextEditingController _phNumController = TextEditingController();
   final TextEditingController _pTimeController = TextEditingController();
+  final TextEditingController _pDateController = TextEditingController();
   final TextEditingController _pLocationController = TextEditingController();
-  final TextEditingController _dLocationController = TextEditingController();
 
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
 
@@ -66,7 +66,7 @@ class _DonationsPageState extends State<DonationsPage>{
                   decoration: const InputDecoration(labelText: 'Pickup Location'),
                 ),
                 TextField(
-                  controller: _dLocationController,
+                  controller: _pDateController,
                   decoration: const InputDecoration(labelText: 'Drop Location'),
                 ),
                 const SizedBox(
@@ -80,7 +80,7 @@ class _DonationsPageState extends State<DonationsPage>{
                     final String donor = _donorController.text;
                     final String pTime = _pTimeController.text;
                     final String pLocation = _pLocationController.text;
-                    final String dLocation = _dLocationController.text;
+                    final String pDate = _pDateController.text;
                     final double? foodAmt =
                     double.tryParse(_foodAmtController.text);
 
@@ -90,7 +90,7 @@ class _DonationsPageState extends State<DonationsPage>{
                         "Food Amount": foodAmt,
                         "Donor": donor,
                         "pLocation": pLocation,
-                        "dLocation": dLocation,
+                        "pDate": pDate,
                         "pTime": pTime,
                         "phNum": phNum,
                       });
@@ -98,7 +98,7 @@ class _DonationsPageState extends State<DonationsPage>{
                       _foodTypeController.text = '';
                       _foodAmtController.text = '';
                       _pLocationController.text = '';
-                      _dLocationController.text = '';
+                      _pDateController.text = '';
                       _pTimeController.text = '';
                       _phNumController.text = '';
                       _donorController.text = '';
@@ -117,7 +117,7 @@ class _DonationsPageState extends State<DonationsPage>{
       _foodTypeController.text = documentSnapshot["Food Type"];
       _foodAmtController.text = documentSnapshot["Food Amount"].toString();
       _pLocationController.text = documentSnapshot["Pickup Location"];
-      _dLocationController.text = documentSnapshot["Drop Location"];
+      _pDateController.text = documentSnapshot["Pickup Date"];
       _pTimeController.text = documentSnapshot["Pickup Time"];
       _phNumController.text = documentSnapshot["Phone Number"];
       _donorController.text = documentSnapshot["Donor"];
@@ -158,16 +158,16 @@ class _DonationsPageState extends State<DonationsPage>{
                   decoration: const InputDecoration(labelText: 'Phone Number'),
                 ),
                 TextField(
+                  controller: _pDateController,
+                  decoration: const InputDecoration(labelText: 'Pickup Date'),
+                ),
+                TextField(
                   controller: _pTimeController,
                   decoration: const InputDecoration(labelText: 'Pickup Time'),
                 ),
                 TextField(
                   controller: _pLocationController,
                   decoration: const InputDecoration(labelText: 'Pickup Location'),
-                ),
-                TextField(
-                  controller: _dLocationController,
-                  decoration: const InputDecoration(labelText: 'Drop Location'),
                 ),
                 const SizedBox(
                   height: 20,
@@ -180,7 +180,7 @@ class _DonationsPageState extends State<DonationsPage>{
                     final String phNum = _phNumController.text;
                     final String donor = _donorController.text;
                     final String pLocation = _pLocationController.text;
-                    final String dLocation = _dLocationController.text;
+                    final String pDate= _pDateController.text;
                     final double? foodAmt =
                     double.tryParse(_foodAmtController.text);
                     if (foodAmt != null) {
@@ -190,7 +190,7 @@ class _DonationsPageState extends State<DonationsPage>{
                         "Food Type": foodType,
                         "Food Amount": foodAmt,
                         "Pickup Location": pLocation,
-                        "Drop Location": dLocation,
+                        "Pickup Date": pDate,
                         "Pickup Time": pTime,
                         "phNum": phNum,
                         "Donor": donor
@@ -199,7 +199,7 @@ class _DonationsPageState extends State<DonationsPage>{
                       _foodTypeController.text = '';
                       _foodAmtController.text = '';
                       _pLocationController.text = '';
-                      _dLocationController.text = '';
+                      _pDateController.text = '';
                       _pTimeController.text = '';
                       _phNumController.text = '';
                       _donorController.text = '';
@@ -276,6 +276,14 @@ class _DonationsPageState extends State<DonationsPage>{
                                   color: Colors.black,
                                 )),
                             Text(
+                                "Pickup Date: ${documentSnapshot["pDate"]}",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                )),
+                            Text(
                                 "Pickup Time: ${documentSnapshot["pTime"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
@@ -285,14 +293,6 @@ class _DonationsPageState extends State<DonationsPage>{
                                 )),
                             Text(
                                 "Pickup Location: ${documentSnapshot["pLocation"]}",
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 0.5,
-                                  color: Colors.black,
-                                )),
-                            Text(
-                                "Drop Location: ${documentSnapshot["dLocation"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontSize: 15,

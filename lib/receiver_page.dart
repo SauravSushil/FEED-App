@@ -63,26 +63,27 @@ class _ReceiverPageState extends State<ReceiverPage>{
                                   color: Colors.black,
                                 )),
                             Text(
-                                "Pickup Location: ${documentSnapshot["pLocation"]}",
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 0.5,
-                                  color: Colors.black,
-                                )),
-                            Text(
-                                "Drop Location: ${documentSnapshot["dLocation"]}",
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 0.5,
-                                  color: Colors.black,
-                                )),
-                            Text(
                                 "Pickup Time: ${documentSnapshot["pTime"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontSize: 16,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                )),
+                            Text(
+                                "Pickup Date: ${documentSnapshot["pDate"]}",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                )),
+
+                            Text(
+                                "Pickup Location: ${documentSnapshot["pLocation"]}",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 15,
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
