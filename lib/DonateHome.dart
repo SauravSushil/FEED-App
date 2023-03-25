@@ -1,3 +1,4 @@
+import 'package:Feed/aboutUs.dart';
 import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -112,7 +113,13 @@ class _DonateHomeState extends State<DonateHome> {
             Card(
               margin: const EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const aboutUsPage(),
+                      ));
+                },
                 splashColor: Colors.deepPurpleAccent,
                 child: Center(
                   child: Column(
