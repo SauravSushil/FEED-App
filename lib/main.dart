@@ -8,9 +8,6 @@ import 'home_page.dart';
 import 'maps.dart';
 import 'Donatepage.dart';
 import 'DonateHome.dart';
-//import 'dart:html';
-
-//import 'dart:js';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

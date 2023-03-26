@@ -72,15 +72,8 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                   color: Colors.black,
                                 )),
 
-                            Text(
-                                "Pickup Location: ${documentSnapshot["pLocation"]}",
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 0.5,
-                                  color: Colors.black,
-                                )),
-                            // Text("Latitude: ${documentSnapshot["Latitude"]}",
+                            // Text(
+                            //     "Pickup Location: ${documentSnapshot["pLocation"]}",
                             //     textAlign: TextAlign.start,
                             //     style: const TextStyle(
                             //       fontSize: 15,

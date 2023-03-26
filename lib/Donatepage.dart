@@ -132,10 +132,6 @@ class _DonatePageState extends State<DonatePage> {
                   decoration: const InputDecoration(labelText: 'Phone Number'),
                 ),
                 TextField(
-                  controller: _pDateController,
-                  decoration: const InputDecoration(labelText: 'Drop Location'),
-                ),
-                TextField(
                   controller: _pTimeController,
                   decoration: const InputDecoration(labelText: 'Pickup Time'),
                 ),
