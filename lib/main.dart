@@ -27,7 +27,7 @@ class FEED extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
-      initialRoute: "MapsPage",
+      initialRoute: "LoginPage",
       routes: {
         "LoginPage": (context) => const LoginPage(),
         "RegistrationPage": (context) => const RegistrationPage(),

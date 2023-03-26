@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:geolocator/geolocator.dart';
 
 class DonationsPage extends StatefulWidget {
-  const DonationsPage({Key? key}) : super(key : key);
+  const DonationsPage({Key? key}) : super(key: key);
 
   @override
   _DonationsPageState createState() => _DonationsPageState();
 }
 
-class _DonationsPageState extends State<DonationsPage>{
+class _DonationsPageState extends State<DonationsPage> {
   final CollectionReference _posts =
-  FirebaseFirestore.instance.collection("Posts");
+      FirebaseFirestore.instance.collection("Posts");
 
   final TextEditingController _foodTypeController = TextEditingController();
   final TextEditingController _foodAmtController = TextEditingController();
@@ -22,7 +23,6 @@ class _DonationsPageState extends State<DonationsPage>{
   final TextEditingController _pLocationController = TextEditingController();
 
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
-
     await showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -43,7 +43,7 @@ class _DonationsPageState extends State<DonationsPage>{
                 ),
                 TextField(
                   keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+                      const TextInputType.numberWithOptions(decimal: true),
                   controller: _foodAmtController,
                   decoration: const InputDecoration(
                     labelText: 'Food Amount',
@@ -63,7 +63,8 @@ class _DonationsPageState extends State<DonationsPage>{
                 ),
                 TextField(
                   controller: _pLocationController,
-                  decoration: const InputDecoration(labelText: 'Pickup Location'),
+                  decoration:
+                      const InputDecoration(labelText: 'Pickup Location'),
                 ),
                 TextField(
                   controller: _pDateController,
@@ -71,6 +72,11 @@ class _DonationsPageState extends State<DonationsPage>{
                 ),
                 const SizedBox(
                   height: 20,
+                ),
+                ElevatedButton(
+                  //controller: _pLocationController,
+                  onPressed: () {},
+                  child: Text("Location"),
                 ),
                 ElevatedButton(
                   child: const Text('Create'),
@@ -82,7 +88,7 @@ class _DonationsPageState extends State<DonationsPage>{
                     final String pLocation = _pLocationController.text;
                     final String pDate = _pDateController.text;
                     final double? foodAmt =
-                    double.tryParse(_foodAmtController.text);
+                        double.tryParse(_foodAmtController.text);
 
                     if (foodAmt != null) {
                       await _posts.add({
@@ -112,8 +118,8 @@ class _DonationsPageState extends State<DonationsPage>{
         });
   }
 
-  Future<void> _update([DocumentSnapshot? documentSnapshot]) async{
-    if (documentSnapshot != null){
+  Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+    if (documentSnapshot != null) {
       _foodTypeController.text = documentSnapshot["Food Type"];
       _foodAmtController.text = documentSnapshot["Food Amount"].toString();
       _pLocationController.text = documentSnapshot["Pickup Location"];
@@ -121,6 +127,7 @@ class _DonationsPageState extends State<DonationsPage>{
       _pTimeController.text = documentSnapshot["Pickup Time"];
       _phNumController.text = documentSnapshot["Phone Number"];
       _donorController.text = documentSnapshot["Donor"];
+      //  _pLocationController.text = documentSnapshot["Location"];
     }
 
     await showModalBottomSheet(
@@ -143,7 +150,7 @@ class _DonationsPageState extends State<DonationsPage>{
                 ),
                 TextField(
                   keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+                      const TextInputType.numberWithOptions(decimal: true),
                   controller: _foodAmtController,
                   decoration: const InputDecoration(
                     labelText: 'Food Amount',
@@ -167,26 +174,25 @@ class _DonationsPageState extends State<DonationsPage>{
                 ),
                 TextField(
                   controller: _pLocationController,
-                  decoration: const InputDecoration(labelText: 'Pickup Location'),
+                  decoration:
+                      const InputDecoration(labelText: 'Pickup Location'),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
-                  child: const Text( 'Update'),
+                  child: const Text('Update'),
                   onPressed: () async {
                     final String foodType = _foodTypeController.text;
                     final String pTime = _pTimeController.text;
                     final String phNum = _phNumController.text;
                     final String donor = _donorController.text;
                     final String pLocation = _pLocationController.text;
-                    final String pDate= _pDateController.text;
+                    final String pDate = _pDateController.text;
                     final double? foodAmt =
-                    double.tryParse(_foodAmtController.text);
+                        double.tryParse(_foodAmtController.text);
                     if (foodAmt != null) {
-                      await _posts
-                          .doc(documentSnapshot!.id)
-                          .update({
+                      await _posts.doc(documentSnapshot!.id).update({
                         "Food Type": foodType,
                         "Food Amount": foodAmt,
                         "Pickup Location": pLocation,
@@ -217,8 +223,8 @@ class _DonationsPageState extends State<DonationsPage>{
   Future<void> _delete(String productId) async {
     await _posts.doc(productId).delete();
 
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("You have successfully deleted a post")));
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("You have successfully deleted a post")));
   }
 
   @override
@@ -227,64 +233,57 @@ class _DonationsPageState extends State<DonationsPage>{
       backgroundColor: Colors.grey[700],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: const Center(
-            child: Text("FEED")
-        ),
+        title: const Center(child: Text("FEED")),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _create(),
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
       body: StreamBuilder(
         stream: _posts.snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
-          if (streamSnapshot.hasData)  {
+        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          if (streamSnapshot.hasData) {
             return ListView.builder(
               itemCount: streamSnapshot.data!.docs.length, //number of rows
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
-                streamSnapshot.data!.docs[index];
+                    streamSnapshot.data!.docs[index];
                 return Card(
                     margin: const EdgeInsets.all(10),
-                    child:
-                    ExpansionTile(
+                    child: ExpansionTile(
                       title: Text(documentSnapshot["Food Type"]),
-                      subtitle: Text("Plates: ${documentSnapshot["Food Amount"].toString()}"),
+                      subtitle: Text(
+                          "Plates: ${documentSnapshot["Food Amount"].toString()}"),
                       expandedAlignment: Alignment.centerLeft,
-                      childrenPadding: const EdgeInsets.fromLTRB(15,0,15,20),
+                      childrenPadding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
                       backgroundColor: Colors.grey[300],
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                "Donor: ${documentSnapshot["Donor"]}",
+                            Text("Donor: ${documentSnapshot["Donor"]}",
                                 textAlign: TextAlign.end,
                                 style: const TextStyle(
                                   fontSize: 15,
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
-                            Text(
-                                "Phone Number: ${documentSnapshot["phNum"]}",
+                            Text("Phone Number: ${documentSnapshot["phNum"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontSize: 15,
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
-                            Text(
-                                "Pickup Date: ${documentSnapshot["pDate"]}",
+                            Text("Pickup Date: ${documentSnapshot["pDate"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
-                            Text(
-                                "Pickup Time: ${documentSnapshot["pTime"]}",
+                            Text("Pickup Time: ${documentSnapshot["pTime"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontSize: 16,
@@ -299,12 +298,19 @@ class _DonationsPageState extends State<DonationsPage>{
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
+                            // Text(
+                            // " Location: ${documentSnapshot["pLocation"]}",
+                            // textAlign: TextAlign.start,
+                            // style: const TextStyle(
+                            //   fontSize: 15,
+                            //   letterSpacing: 0.5,
+                            //   color: Colors.black,
+                            // )),
                             Row(
                               children: [
                                 IconButton(
                                     icon: const Icon(Icons.edit),
-                                    onPressed: () =>
-                                        _update(documentSnapshot)),
+                                    onPressed: () => _update(documentSnapshot)),
                                 const SizedBox(),
                                 IconButton(
                                     icon: const Icon(Icons.delete),
@@ -315,10 +321,8 @@ class _DonationsPageState extends State<DonationsPage>{
                           ],
                         ),
                       ],
-                    )
-                );
+                    ));
               },
-
             );
           }
           return const Center(
