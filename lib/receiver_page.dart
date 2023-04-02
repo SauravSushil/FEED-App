@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ReceiverPage extends StatefulWidget {
   const ReceiverPage({Key? key}) : super(key: key);
@@ -12,6 +14,17 @@ class ReceiverPage extends StatefulWidget {
 class _ReceiverPageState extends State<ReceiverPage> {
   final CollectionReference _posts =
       FirebaseFirestore.instance.collection("Posts");
+
+  String txtAddress = "";
+
+  Address() async {
+    final DocumentSnapshot<Object?> data = await _posts.doc(_posts.id).get();
+    var LatLong = data.get("DonorLocation");
+    List<Placemark> placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
+    //txtAddress = "${placemarks.reversed.last.locality}, ${placemarks.reversed.last.administrativeArea}, ${placemarks.reversed.last.country}";
+    txtAddress = "${placemarks.reversed.last.country}";
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,17 +84,22 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
-
-                            // Text(
-                            //     "Pickup Location: ${documentSnapshot["pLocation"]}",
-                            //     textAlign: TextAlign.start,
-                            //     style: const TextStyle(
-                            //       fontSize: 15,
-                            //       letterSpacing: 0.5,
-                            //       color: Colors.black,
-                            //     )),
-                            // const SizedBox(
-                            //   height: 15,)
+                            Text(
+                                "Pickup Location: ${documentSnapshot["DonorLocation"]}",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                )),
+                            Text(
+                                "Address: $txtAddress",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                )),
                           ],
                         )
                       ],

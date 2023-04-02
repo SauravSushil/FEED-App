@@ -118,114 +118,114 @@ class _DonationsPageState extends State<DonationsPage> {
         });
   }
 
-  Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
-    if (documentSnapshot != null) {
-      _foodTypeController.text = documentSnapshot["Food Type"];
-      _foodAmtController.text = documentSnapshot["Food Amount"].toString();
-      _pLocationController.text = documentSnapshot["Pickup Location"];
-      _pDateController.text = documentSnapshot["Pickup Date"];
-      _pTimeController.text = documentSnapshot["Pickup Time"];
-      _phNumController.text = documentSnapshot["Phone Number"];
-      _donorController.text = documentSnapshot["Donor"];
-      //  _pLocationController.text = documentSnapshot["Location"];
-    }
+  // Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+  //   if (documentSnapshot != null) {
+  //     _foodTypeController.text = documentSnapshot["Food Type"];
+  //     _foodAmtController.text = documentSnapshot["Food Amount"].toString();
+  //     _pLocationController.text = documentSnapshot["Pickup Location"];
+  //     _pDateController.text = documentSnapshot["Pickup Date"];
+  //     _pTimeController.text = documentSnapshot["Pickup Time"];
+  //     _phNumController.text = documentSnapshot["Phone Number"];
+  //     _donorController.text = documentSnapshot["Donor"];
+  //     //  _pLocationController.text = documentSnapshot["Location"];
+  //   }
+  //
+  //   await showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       context: context,
+  //       builder: (BuildContext ctx) {
+  //         return Padding(
+  //           padding: EdgeInsets.only(
+  //               top: 20,
+  //               left: 20,
+  //               right: 20,
+  //               bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               TextField(
+  //                 controller: _foodTypeController,
+  //                 decoration: const InputDecoration(labelText: 'Food Type'),
+  //               ),
+  //               TextField(
+  //                 keyboardType:
+  //                     const TextInputType.numberWithOptions(decimal: true),
+  //                 controller: _foodAmtController,
+  //                 decoration: const InputDecoration(
+  //                   labelText: 'Food Amount',
+  //                 ),
+  //               ),
+  //               TextField(
+  //                 controller: _donorController,
+  //                 decoration: const InputDecoration(labelText: 'Donor'),
+  //               ),
+  //               TextField(
+  //                 controller: _phNumController,
+  //                 decoration: const InputDecoration(labelText: 'Phone Number'),
+  //               ),
+  //               TextField(
+  //                 controller: _pDateController,
+  //                 decoration: const InputDecoration(labelText: 'Pickup Date'),
+  //               ),
+  //               TextField(
+  //                 controller: _pTimeController,
+  //                 decoration: const InputDecoration(labelText: 'Pickup Time'),
+  //               ),
+  //               TextField(
+  //                 controller: _pLocationController,
+  //                 decoration:
+  //                     const InputDecoration(labelText: 'Pickup Location'),
+  //               ),
+  //               const SizedBox(
+  //                 height: 20,
+  //               ),
+  //               ElevatedButton(
+  //                 child: const Text('Update'),
+  //                 onPressed: () async {
+  //                   final String foodType = _foodTypeController.text;
+  //                   final String pTime = _pTimeController.text;
+  //                   final String phNum = _phNumController.text;
+  //                   final String donor = _donorController.text;
+  //                   final String pLocation = _pLocationController.text;
+  //                   final String pDate = _pDateController.text;
+  //                   final double? foodAmt =
+  //                       double.tryParse(_foodAmtController.text);
+  //                   if (foodAmt != null) {
+  //                     await _posts.doc(documentSnapshot!.id).update({
+  //                       "Food Type": foodType,
+  //                       "Food Amount": foodAmt,
+  //                       "Pickup Location": pLocation,
+  //                       "Pickup Date": pDate,
+  //                       "Pickup Time": pTime,
+  //                       "phNum": phNum,
+  //                       "Donor": donor
+  //                     });
+  //
+  //                     _foodTypeController.text = '';
+  //                     _foodAmtController.text = '';
+  //                     _pLocationController.text = '';
+  //                     _pDateController.text = '';
+  //                     _pTimeController.text = '';
+  //                     _phNumController.text = '';
+  //                     _donorController.text = '';
+  //
+  //                     Navigator.of(context).pop();
+  //                   }
+  //                 },
+  //               )
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
-    await showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _foodTypeController,
-                  decoration: const InputDecoration(labelText: 'Food Type'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _foodAmtController,
-                  decoration: const InputDecoration(
-                    labelText: 'Food Amount',
-                  ),
-                ),
-                TextField(
-                  controller: _donorController,
-                  decoration: const InputDecoration(labelText: 'Donor'),
-                ),
-                TextField(
-                  controller: _phNumController,
-                  decoration: const InputDecoration(labelText: 'Phone Number'),
-                ),
-                TextField(
-                  controller: _pDateController,
-                  decoration: const InputDecoration(labelText: 'Pickup Date'),
-                ),
-                TextField(
-                  controller: _pTimeController,
-                  decoration: const InputDecoration(labelText: 'Pickup Time'),
-                ),
-                TextField(
-                  controller: _pLocationController,
-                  decoration:
-                      const InputDecoration(labelText: 'Pickup Location'),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  child: const Text('Update'),
-                  onPressed: () async {
-                    final String foodType = _foodTypeController.text;
-                    final String pTime = _pTimeController.text;
-                    final String phNum = _phNumController.text;
-                    final String donor = _donorController.text;
-                    final String pLocation = _pLocationController.text;
-                    final String pDate = _pDateController.text;
-                    final double? foodAmt =
-                        double.tryParse(_foodAmtController.text);
-                    if (foodAmt != null) {
-                      await _posts.doc(documentSnapshot!.id).update({
-                        "Food Type": foodType,
-                        "Food Amount": foodAmt,
-                        "Pickup Location": pLocation,
-                        "Pickup Date": pDate,
-                        "Pickup Time": pTime,
-                        "phNum": phNum,
-                        "Donor": donor
-                      });
-
-                      _foodTypeController.text = '';
-                      _foodAmtController.text = '';
-                      _pLocationController.text = '';
-                      _pDateController.text = '';
-                      _pTimeController.text = '';
-                      _phNumController.text = '';
-                      _donorController.text = '';
-
-                      Navigator.of(context).pop();
-                    }
-                  },
-                )
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<void> _delete(String productId) async {
-    await _posts.doc(productId).delete();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("You have successfully deleted a post")));
-  }
+  // Future<void> _delete(String productId) async {
+  //   await _posts.doc(productId).delete();
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text("You have successfully deleted a post")));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -306,18 +306,18 @@ class _DonationsPageState extends State<DonationsPage> {
                             //   letterSpacing: 0.5,
                             //   color: Colors.black,
                             // )),
-                            Row(
-                              children: [
-                                IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () => _update(documentSnapshot)),
-                                const SizedBox(),
-                                IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () =>
-                                        _delete(documentSnapshot.id)),
-                              ],
-                            )
+                            // Row(
+                            //   children: [
+                            //     IconButton(
+                            //         icon: const Icon(Icons.edit),
+                            //         onPressed: () => _update(documentSnapshot)),
+                            //     const SizedBox(),
+                            //     IconButton(
+                            //         icon: const Icon(Icons.delete),
+                            //         onPressed: () =>
+                            //             _delete(documentSnapshot.id)),
+                            //   ],
+                            // )
                           ],
                         ),
                       ],

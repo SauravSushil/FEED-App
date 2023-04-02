@@ -16,7 +16,7 @@ class _MapsPageState extends State<MapsPage> {
   Widget build(BuildContext context) {
     Set<Marker> getMarker() {
       return <Marker>[
-        Marker(
+         Marker(
             markerId: MarkerId('NGO'),
             position: LatLng(19.076090, 72.877426),
             icon: BitmapDescriptor.defaultMarker,
