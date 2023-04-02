@@ -16,131 +16,6 @@ class DonateHome extends StatefulWidget {
 }
 
 class _DonateHomeState extends State<DonateHome> {
-  Future<Map<String, String>> getCurrentPosition() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      print("Permissions not given");
-      LocationPermission asked = await Geolocator.requestPermission();
-      return {"Latitude": "", "Longitude": ""};
-    } else {
-      Position currentposition = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
-      print("Latitude: " + currentposition.latitude.toString());
-      print("Longitude: " + currentposition.longitude.toString());
-      return {
-        "Latitude": currentposition.latitude.toString(),
-        "Longitude": currentposition.longitude.toString()
-      };
-    }
-  }
-
-  final CollectionReference _posts =
-      FirebaseFirestore.instance.collection("Posts");
-
-  final TextEditingController _foodTypeController = TextEditingController();
-  final TextEditingController _foodAmtController = TextEditingController();
-  final TextEditingController _donorController = TextEditingController();
-  final TextEditingController _phNumController = TextEditingController();
-  final TextEditingController _pTimeController = TextEditingController();
-  final TextEditingController _pDateController = TextEditingController();
-  final TextEditingController _pLocationController = TextEditingController();
-
-  Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
-    await showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _foodTypeController,
-                  decoration: const InputDecoration(labelText: 'Food Type'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _foodAmtController,
-                  decoration: const InputDecoration(
-                    labelText: 'Food Amount',
-                  ),
-                ),
-                TextField(
-                  controller: _donorController,
-                  decoration: const InputDecoration(labelText: 'Donor'),
-                ),
-                TextField(
-                  controller: _phNumController,
-                  decoration: const InputDecoration(labelText: 'Phone Number'),
-                ),
-                TextField(
-                  controller: _pTimeController,
-                  decoration: const InputDecoration(labelText: 'Pickup Time'),
-                ),
-                TextField(
-                  controller: _pLocationController,
-                  decoration:
-                      const InputDecoration(labelText: 'Pickup Location'),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    getCurrentPosition();
-                  },
-                  child: Text("Location"),
-                ),
-                ElevatedButton(
-                  child: const Text('Create'),
-                  onPressed: () async {
-                    final String foodType = _foodTypeController.text;
-                    final String pLocation = _pLocationController.text;
-                    final String pDate = _pDateController.text;
-                    final String pTime = _pTimeController.text;
-                    final String phNum = _phNumController.text;
-                    final double? foodAmt =
-                        double.tryParse(_foodAmtController.text);
-                    if (foodAmt != null) {
-                      Map<String, String> location = await getCurrentPosition();
-                      await _posts.add({
-                        "Food Type": foodType,
-                        "Food Amount": foodAmt,
-                        "Longitude": location['Longitude'],
-                        "Latitude": location["Latitude"]
-                      });
-
-                      _foodTypeController.text = '';
-                      _foodAmtController.text = '';
-                      _pLocationController.text = '';
-                      _pDateController.text = '';
-                      _pTimeController.text = '';
-                      _phNumController.text = '';
-                      Navigator.of(context).pop();
-                    }
-                  },
-                )
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<void> _delete(String productId) async {
-    await _posts.doc(productId).delete();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("You have successfully deleted a post")));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,7 +56,13 @@ class _DonateHomeState extends State<DonateHome> {
               margin: const EdgeInsets.all(8.0),
               color: Colors.deepPurpleAccent,
               child: InkWell(
-                onTap: () => _create(),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DonatePage(),
+                      ));
+                },
                 splashColor: Colors.grey,
                 child: Center(
                   child: Column(
