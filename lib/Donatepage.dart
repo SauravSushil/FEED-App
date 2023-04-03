@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:Feed/Donatepage.dart';
 
 class DonatePage extends StatefulWidget {
@@ -66,25 +67,6 @@ class DonatePage extends StatefulWidget {
 }
 
 class _DonatePageState extends State<DonatePage> {
-  Future<Map<String, String>> getCurrentPosition() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      print("Permissions not given");
-      LocationPermission asked = await Geolocator.requestPermission();
-      return {"Latitude": "", "Longitude": ""};
-    } else {
-      Position currentposition = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
-      print("Latitude: " + currentposition.latitude.toString());
-      print("Longitude: " + currentposition.longitude.toString());
-      return {
-        "Latitude": currentposition.latitude.toString(),
-        "Longitude": currentposition.longitude.toString()
-      };
-    }
-  }
-
   final CollectionReference _posts =
       FirebaseFirestore.instance.collection("Posts");
 
@@ -94,7 +76,43 @@ class _DonatePageState extends State<DonatePage> {
   final TextEditingController _phNumController = TextEditingController();
   final TextEditingController _pTimeController = TextEditingController();
   final TextEditingController _pDateController = TextEditingController();
-  final TextEditingController _pLocationController = TextEditingController();
+  //final TextEditingController _pAddressController = TextEditingController();
+
+  static var Address;
+  static var Latitude;
+  static var Longitude;
+
+  Future<Map<String, double>> getCurrentPosition() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      print("Permissions not given");
+      LocationPermission asked = await Geolocator.requestPermission();
+      return {"Latitude": 0.00, "Longitude": 0.00};
+    } else {
+      Position currentposition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
+
+      Latitude = currentposition.latitude;
+      Longitude = currentposition.longitude;
+
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(Latitude, Longitude);
+      Address = "${placemarks.reversed.last.subLocality}, "
+          "${placemarks.reversed.last.locality}, "
+          "${placemarks.reversed.last.administrativeArea}, "
+          "${placemarks.reversed.last.country}";
+      print("Latitude: $Latitude");
+      print("Longitude: $Longitude");
+      print("Address: $Address");
+
+      return {
+        "Latitude": currentposition.latitude,
+        "Longitude": currentposition.longitude,
+      };
+    }
+  }
 
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
     await showModalBottomSheet(
@@ -136,18 +154,17 @@ class _DonatePageState extends State<DonatePage> {
                   decoration: const InputDecoration(labelText: 'Pickup Time'),
                 ),
                 TextField(
-                  controller: _pLocationController,
-                  decoration:
-                      const InputDecoration(labelText: 'Pickup Location'),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _pDateController,
+                  decoration: const InputDecoration(labelText: 'Pickup Date'),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    getCurrentPosition();
-                  },
-                  child: Text("Location"),
+                  onPressed: () => getCurrentPosition(),
+                  child: const Text("Location"),
                 ),
                 ElevatedButton(
                   child: const Text('Create'),
@@ -156,12 +173,12 @@ class _DonatePageState extends State<DonatePage> {
                     final String donor = _donorController.text;
                     //final String pAddress = Address;
                     final String pDate = _pDateController.text;
-                    final String pTime = _pTimeController.text;
+                    final pTime = _pTimeController.text;
                     final String phNum = _phNumController.text;
                     final double? foodAmt =
                         double.tryParse(_foodAmtController.text);
                     if (foodAmt != null) {
-                      Map<String, String> location = await getCurrentPosition();
+                      Map<String, double> location = await getCurrentPosition();
                       await _posts.add({
                         "Food Type": foodType,
                         "Food Amount": foodAmt,
@@ -169,14 +186,16 @@ class _DonatePageState extends State<DonatePage> {
                         "pTime": pTime,
                         "pDate": pDate,
                         "phNum": phNum,
-                        //"pAddress": pAddress,
-                        "Longitude": location['Longitude'],
-                        "Latitude": location["Latitude"]
+                        "pAddress": Address,
+                        "dCoordinates": GeoPoint(
+                            location['Latitude']!, location['Longitude']!),
+                        // "Longitude": location['Longitude'],
+                        // "Latitude": location["Latitude"]
                       });
 
                       _foodTypeController.text = '';
                       _foodAmtController.text = '';
-                      _pLocationController.text = '';
+                      _donorController.text = '';
                       _pDateController.text = '';
                       _pTimeController.text = '';
                       _phNumController.text = '';

@@ -1,8 +1,10 @@
 import 'package:Feed/aboutUs.dart';
 import 'package:Feed/login_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:geolocator/geolocator.dart';
 import 'Donatepage.dart';
 import 'package:Feed/donations_page.dart';
 
@@ -18,48 +20,41 @@ class _DonateHomeState extends State<DonateHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Menu'),
+        title: const Text('Welcome to FEED'),
         backgroundColor: Colors.grey[800],
       ),
-      backgroundColor: Colors.grey[300],
-      drawer:  Drawer(
+      //backgroundColor: Color.fromARGB(255, 207, 207, 207),
+      drawer: Drawer(
         child: ListView(
-          children: const <Widget>[
+          children: <Widget>[
             ListTile(
-              leading: Icon(Icons.account_box_outlined),
-              title: Text('Profile'),
-            ),
-            ListTile(
-              leading: Icon(Icons.contact_page_outlined),
-              title: Text('Contact Us'),
-            ),
-            ListTile(
-              leading: Icon(Icons.mail),
-              title: Text('Past Work'),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
-            ListTile(
-              leading: Icon(Icons.support_agent_outlined),
-              title: Text('Help'),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout_outlined),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ));
+              },
             ),
           ],
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.all(100.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/try3.png"),
+              fit: BoxFit.fitHeight),
+        ),
+        padding: const EdgeInsets.all(120.0),
         child: GridView.count(
           crossAxisCount: 1,
           children: <Widget>[
             //Btn 1
             Card(
               margin: const EdgeInsets.all(8.0),
+              color: Colors.deepPurpleAccent,
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -73,9 +68,13 @@ class _DonateHomeState extends State<DonateHome> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
+                      Icon(
+                        Icons.local_hospital_sharp,
+                        size: 40,
+                      ),
                       Text(
                         'Donate',
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize: 40),
                       )
                     ],
                   ),
@@ -86,6 +85,7 @@ class _DonateHomeState extends State<DonateHome> {
             //Btn 2
             Card(
               margin: const EdgeInsets.all(8.0),
+              color: Colors.deepPurpleAccent,
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -99,9 +99,13 @@ class _DonateHomeState extends State<DonateHome> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
+                      Icon(
+                        Icons.history_sharp,
+                        size: 40,
+                      ),
                       Text(
                         'History',
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize: 40),
                       )
                     ],
                   ),
@@ -112,6 +116,7 @@ class _DonateHomeState extends State<DonateHome> {
             //Btn 3
             Card(
               margin: const EdgeInsets.all(8.0),
+              color: Colors.deepPurpleAccent,
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -120,14 +125,19 @@ class _DonateHomeState extends State<DonateHome> {
                         builder: (context) => const aboutUsPage(),
                       ));
                 },
-                splashColor: Colors.deepPurpleAccent,
+                splashColor: Colors.grey,
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
+                      Icon(
+                        Icons.info_outline_rounded,
+                        size: 40,
+                      ),
                       Text(
                         'About Us',
-                        style: TextStyle(fontSize: 28),
+                        style: TextStyle(fontSize: 40),
+                        textAlign: TextAlign.center,
                       )
                     ],
                   ),
