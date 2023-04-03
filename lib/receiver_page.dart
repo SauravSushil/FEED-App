@@ -1,3 +1,4 @@
+import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,31 @@ class _ReceiverPageState extends State<ReceiverPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         title: const Center(child: Text("FEED")),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ));
+              },
+            ),
+          ],
+        ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.map),
+        onPressed: () {
+          Navigator.pushNamed(context, "MapsPage");
+        },
+        elevation: 10.0,
       ),
       body: StreamBuilder(
         stream: _posts.snapshots(),
@@ -71,7 +97,6 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
-
                             // Text(
                             //     "Pickup Location: ${documentSnapshot["pLocation"]}",
                             //     textAlign: TextAlign.start,
@@ -81,7 +106,8 @@ class _ReceiverPageState extends State<ReceiverPage> {
                             //       color: Colors.black,
                             //     )),
                             // const SizedBox(
-                            //   height: 15,)
+                            //   height: 15,
+                            // )
                           ],
                         )
                       ],
@@ -95,6 +121,39 @@ class _ReceiverPageState extends State<ReceiverPage> {
           );
         },
       ),
+      // ElevatedButton(
+      //   onPressed: () {},
+      //   child: Text("Location"),
+      // ),
     );
+    // Padding(
+    //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    //   child: Container(
+    //     padding: const EdgeInsets.all(15),
+    //     decoration: BoxDecoration(
+    //         color: Colors.deepPurple, borderRadius: BorderRadius.circular(10)),
+    //     child: Center(
+    //       child: TextButton(
+    //         onPressed: () {},
+    //         child: Text(
+    //           'LOGIN',
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
+
+    // FloatingActionButton(
+    //   elevation: 10.0,
+    //   child: const Text(
+    //     'About Us',
+    //     style: TextStyle(fontSize: 28),
+
+    //     // action on button press
+    //   ),
+    //   onPressed: () {
+    //     // action on button press
+    //   },
+    // );
   }
 }

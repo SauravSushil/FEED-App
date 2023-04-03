@@ -153,7 +153,8 @@ class _DonatePageState extends State<DonatePage> {
                   child: const Text('Create'),
                   onPressed: () async {
                     final String foodType = _foodTypeController.text;
-                    final String pLocation = _pLocationController.text;
+                    final String donor = _donorController.text;
+                    //final String pAddress = Address;
                     final String pDate = _pDateController.text;
                     final String pTime = _pTimeController.text;
                     final String phNum = _phNumController.text;
@@ -164,6 +165,11 @@ class _DonatePageState extends State<DonatePage> {
                       await _posts.add({
                         "Food Type": foodType,
                         "Food Amount": foodAmt,
+                        "Donor": donor,
+                        "pTime": pTime,
+                        "pDate": pDate,
+                        "phNum": phNum,
+                        //"pAddress": pAddress,
                         "Longitude": location['Longitude'],
                         "Latitude": location["Latitude"]
                       });
