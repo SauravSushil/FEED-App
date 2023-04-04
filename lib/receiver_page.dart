@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -22,6 +23,31 @@ class _ReceiverPageState extends State<ReceiverPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         title: const Center(child: Text("FEED")),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ));
+              },
+            ),
+          ],
+        ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.map),
+        onPressed: () {
+          Navigator.pushNamed(context, "MapsPage");
+        },
+        elevation: 10.0,
       ),
       body: StreamBuilder(
         stream: _posts.snapshots(),
@@ -74,16 +100,7 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                   letterSpacing: 0.5,
                                   color: Colors.black,
                                 )),
-                            Text(
-                                "Pickup Location: ${documentSnapshot["DonorLocation"]}",
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 0.5,
-                                  color: Colors.black,
-                                )),
-                            Text(
-                                "Address: ${documentSnapshot["pAddress"]}",
+                            Text("Address: ${documentSnapshot["pAddress"]}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontSize: 15,
@@ -156,34 +173,30 @@ class _ReceiverPageState extends State<ReceiverPage> {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                AlertDialog(
-                                    title: const Text('Are you sure?'),
-                                    content: const Text('You are about to un-accept the post. Are you sure you want to do that?'),
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: const Text("Are you sure?"),
+                                    content: const Text("This will remove your reservation for the post. Are you sure?"),
                                     actions: <Widget>[
-                                      SizedBox(
-                                        height: 60,
-                                        width: 180,
-                                        child: Row(
-                                            children:[
-                                              ElevatedButton(
-                                                  child: const Text('Yes'),
-                                                  onPressed: () async{
-                                                    await _posts.doc(documentSnapshot!.id).update({
-                                                      "availability": "Yes",
-                                                      "NGO": "None"});
-                                                  }),
-                                              ElevatedButton(
-                                                  child: const Text('No'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  }),
-                                            ]
-                                        )
-                                    )
-                                    ]
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: const Text("Yes"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: const Text("No"),
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
-                              child: const Text("Un-Accept Post"))
+                              child: const Text("Un-Accept Post"),
+                          )
                         ],
                       ));
                 }
@@ -196,6 +209,39 @@ class _ReceiverPageState extends State<ReceiverPage> {
           );
         },
       ),
+      // ElevatedButton(
+      //   onPressed: () {},
+      //   child: Text("Location"),
+      // ),
     );
+    // Padding(
+    //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    //   child: Container(
+    //     padding: const EdgeInsets.all(15),
+    //     decoration: BoxDecoration(
+    //         color: Colors.deepPurple, borderRadius: BorderRadius.circular(10)),
+    //     child: Center(
+    //       child: TextButton(
+    //         onPressed: () {},
+    //         child: Text(
+    //           'LOGIN',
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
+
+    // FloatingActionButton(
+    //   elevation: 10.0,
+    //   child: const Text(
+    //     'About Us',
+    //     style: TextStyle(fontSize: 28),
+
+    //     // action on button press
+    //   ),
+    //   onPressed: () {
+    //     // action on button press
+    //   },
+    // );
   }
 }

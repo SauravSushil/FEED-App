@@ -67,9 +67,8 @@ class DonatePage extends StatefulWidget {
 }
 
 class _DonatePageState extends State<DonatePage> {
-
   final CollectionReference _posts =
-  FirebaseFirestore.instance.collection("Posts");
+      FirebaseFirestore.instance.collection("Posts");
 
   final TextEditingController _foodTypeController = TextEditingController();
   final TextEditingController _foodAmtController = TextEditingController();
@@ -82,29 +81,30 @@ class _DonatePageState extends State<DonatePage> {
   static var Latitude;
   static var Longitude;
 
-  Future<Map<String, String>> getCurrentPosition() async {
+  Future<Map<String, double>> getCurrentPosition() async {
     LocationPermission permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
       print("Permissions not given");
       LocationPermission asked = await Geolocator.requestPermission();
-      return {"Latitude": "", "Longitude": ""};
+      return {"Latitude": 0.00, "Longitude": 0.00};
     } else {
       Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
-
       Latitude = currentPosition.latitude;
       Longitude =  currentPosition.longitude;
 
-      List<Placemark> placemarks = await placemarkFromCoordinates(Latitude, Longitude);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(Latitude, Longitude);
+
       Address = "${placemarks.reversed.last.subLocality}, "
           "${placemarks.reversed.last.locality}, "
           "${placemarks.reversed.last.administrativeArea}";
 
       return {
-        "Latitude": currentPosition.latitude.toString(),
-        "Longitude": currentPosition.longitude.toString()
+        "Latitude": Latitude,
+        "Longitude": Longitude,
       };
     }
   }
@@ -130,7 +130,8 @@ class _DonatePageState extends State<DonatePage> {
                   decoration: const InputDecoration(labelText: 'Food Type'),
                 ),
                 TextField(
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   controller: _foodAmtController,
                   decoration: const InputDecoration(
                     labelText: 'Food Amount',
@@ -150,7 +151,8 @@ class _DonatePageState extends State<DonatePage> {
                   decoration: const InputDecoration(labelText: 'Pickup Time'),
                 ),
                 TextField(
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   controller: _pDateController,
                   decoration: const InputDecoration(labelText: 'Pickup Date'),
                 ),
@@ -172,7 +174,7 @@ class _DonatePageState extends State<DonatePage> {
                     final double? foodAmt =
                         double.tryParse(_foodAmtController.text);
                     if (foodAmt != null) {
-                      Map<String, String> location = await getCurrentPosition();
+                      Map<String, double> location = await getCurrentPosition();
                       await _posts.add({
                         "Food Type": foodType,
                         "Food Amount": foodAmt,
@@ -182,7 +184,9 @@ class _DonatePageState extends State<DonatePage> {
                         "phNum": phNum,
                         "pAddress": Address,
                         "availability": "Yes",
-                        "NGO": "None"
+                        "NGO": "None",
+                        "dCoordinates": GeoPoint(
+                            location['Latitude']!, location['Longitude']!),
                       });
 
                       _foodTypeController.text = '';
