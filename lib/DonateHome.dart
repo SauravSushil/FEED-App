@@ -1,10 +1,6 @@
 import 'package:Feed/aboutUs.dart';
 import 'package:Feed/login_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:geolocator/geolocator.dart';
 import 'Donatepage.dart';
 import 'package:Feed/donations_page.dart';
 
