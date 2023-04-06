@@ -76,7 +76,6 @@ class _DonatePageState extends State<DonatePage> {
   final TextEditingController _phNumController = TextEditingController();
   final TextEditingController _pTimeController = TextEditingController();
   final TextEditingController _pDateController = TextEditingController();
-  //final TextEditingController _pAddressController = TextEditingController();
 
   static var Address;
   static var Latitude;
@@ -91,25 +90,21 @@ class _DonatePageState extends State<DonatePage> {
       LocationPermission asked = await Geolocator.requestPermission();
       return {"Latitude": 0.00, "Longitude": 0.00};
     } else {
-      Position currentposition = await Geolocator.getCurrentPosition(
+      Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
-
-      Latitude = currentposition.latitude;
-      Longitude = currentposition.longitude;
+      Latitude = currentPosition.latitude;
+      Longitude =  currentPosition.longitude;
 
       List<Placemark> placemarks =
           await placemarkFromCoordinates(Latitude, Longitude);
+
       Address = "${placemarks.reversed.last.subLocality}, "
           "${placemarks.reversed.last.locality}, "
-          "${placemarks.reversed.last.administrativeArea}, "
-          "${placemarks.reversed.last.country}";
-      print("Latitude: $Latitude");
-      print("Longitude: $Longitude");
-      print("Address: $Address");
+          "${placemarks.reversed.last.administrativeArea}";
 
       return {
-        "Latitude": currentposition.latitude,
-        "Longitude": currentposition.longitude,
+        "Latitude": Latitude,
+        "Longitude": Longitude,
       };
     }
   }
@@ -131,6 +126,7 @@ class _DonatePageState extends State<DonatePage> {
               children: [
                 TextField(
                   controller: _foodTypeController,
+                  textCapitalization: TextCapitalization.words,
                   decoration: const InputDecoration(labelText: 'Food Type'),
                 ),
                 TextField(
@@ -143,6 +139,7 @@ class _DonatePageState extends State<DonatePage> {
                 ),
                 TextField(
                   controller: _donorController,
+                  textCapitalization: TextCapitalization.words,
                   decoration: const InputDecoration(labelText: 'Donor'),
                 ),
                 TextField(
@@ -171,7 +168,6 @@ class _DonatePageState extends State<DonatePage> {
                   onPressed: () async {
                     final String foodType = _foodTypeController.text;
                     final String donor = _donorController.text;
-                    //final String pAddress = Address;
                     final String pDate = _pDateController.text;
                     final pTime = _pTimeController.text;
                     final String phNum = _phNumController.text;
@@ -187,10 +183,10 @@ class _DonatePageState extends State<DonatePage> {
                         "pDate": pDate,
                         "phNum": phNum,
                         "pAddress": Address,
+                        "availability": "Yes",
+                        "NGO": "None",
                         "dCoordinates": GeoPoint(
                             location['Latitude']!, location['Longitude']!),
-                        // "Longitude": location['Longitude'],
-                        // "Latitude": location["Latitude"]
                       });
 
                       _foodTypeController.text = '';
