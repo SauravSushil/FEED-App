@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     print("Test" + user!.uid);
     var test = FirebaseFirestore.instance
         .collection('Users')
-        .where("Email", isEqualTo: user!.email)
+        .where("Email", isEqualTo: user.email)
         .get()
         .then(
       (querySnapshot) {
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
     //       print('User does not exist on the database');
     //     }
     //   });
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
