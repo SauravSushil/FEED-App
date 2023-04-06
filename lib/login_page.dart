@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:Feed/DonateHome.dart';
+import 'package:Feed/admin.dart';
 import 'package:Feed/home_page.dart';
 import 'package:Feed/receiver_page.dart';
 import 'package:Feed/registeration_page.dart';
@@ -17,60 +18,102 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-
   signIn(String email, String password) async {
-      try {
-        UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        route();
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        }
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      route();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
       }
+    }
   }
 
   void route() {
     User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+    print("Test" + user!.uid);
+    var test = FirebaseFirestore.instance
         .collection('Users')
-        .doc(user!.uid)
+        .where("Email", isEqualTo: user!.email)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        if (documentSnapshot.get("Roll") == "Donor") {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>  const DonateHome(),
-            ),
-          );
-        }else{
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>  const ReceiverPage(),
-            ),
-          );
+        .then(
+      (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          var item_data = docSnapshot.data();
+          print(item_data["Email"]);
+          if (item_data["Roll"] == "Donor") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const DonateHome(),
+              ),
+            );
+          } else if (item_data["Roll"] == "Admin") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Adminpage(),
+              ),
+            );
+          } else if (item_data["Roll"] == "NGO") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ReceiverPage(),
+              ),
+            );
+          }
         }
-      } else {
-        print('User does not exist on the database');
-      }
-    });
-  }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+
+    // var kk = FirebaseFirestore.instance
+    //     .collection('Users')
+    //     .doc(user!.uid)
+    //     .get()
+    //     .then((DocumentSnapshot documentSnapshot) {
+    //   if (documentSnapshot.exists) {
+    //       if (documentSnapshot.get("Roll") == "Donor") {
+    //         Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(
+    //             builder: (context) => const DonateHome(),
+    //           ),
+    //         );
+    //       } else if (documentSnapshot.get("Roll") == "Admin") {
+    //         Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(
+    //             builder: (context) => Adminpage(),
+    //           ),
+    //         );
+    //       } else if (documentSnapshot.get('Roll') == "NGO") {
+    //         Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(
+    //             builder: (context) => const ReceiverPage(),
+    //           ),
+    //         );
+    //       }
+    //     } else {
+    //       print('User does not exist on the database');
+    //     }
+    //   });
+  } 
 
   @override
   Widget build(BuildContext context) {
-
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
@@ -162,11 +205,11 @@ class _LoginPageState extends State<LoginPage> {
                   child: Center(
                     child: TextButton(
                       onPressed: () async {
-                        User? user = await signIn(emailController.text, passwordController.text);
-                            //context: context);
-                        print(user);
-                        signIn(
+                        User? user = await signIn(
                             emailController.text, passwordController.text);
+                        //context: context);
+                        print(user);
+                        // signIn(emailController.text, passwordController.text);
                       },
                       child: Text(
                         'LOGIN',
