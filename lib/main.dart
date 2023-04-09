@@ -1,3 +1,4 @@
+import 'package:Feed/history_page.dart';
 import 'package:Feed/receiver_page.dart';
 import 'package:flutter/material.dart';
 import 'donations_page.dart';
@@ -31,11 +32,12 @@ class FEED extends StatelessWidget {
         "RegistrationPage": (context) => const RegistrationPage(),
         "HomePage": (context) => const HomePage(),
         "DonateHome": (context) => const DonateHome(),
-        "Donatepage": (context) => const DonatePage(),
+        "DonatePage": (context) => const DonatePage(),
         "ReceiverPage": (context) => const ReceiverPage(),
         "DonationsPage": (context) => const DonationsPage(),
         "MapsPage": (context) => MapsPage(),
-        "Adminpage": (context) => Adminpage()
+        "AdminPage": (context) => Adminpage(),
+        "HistoryPage" : (context) => const HistoryPage()
       },
     );
   }

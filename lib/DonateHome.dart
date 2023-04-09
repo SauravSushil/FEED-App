@@ -1,4 +1,5 @@
 import 'package:Feed/aboutUs.dart';
+import 'package:Feed/history_page.dart';
 import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
 import 'Donatepage.dart';
@@ -87,7 +88,7 @@ class _DonateHomeState extends State<DonateHome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DonationsPage(),
+                        builder: (context) => const HistoryPage(),
                       ));
                 },
                 splashColor: Colors.grey,
