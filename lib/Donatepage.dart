@@ -93,7 +93,7 @@ class _DonatePageState extends State<DonatePage> {
       Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
       Latitude = currentPosition.latitude;
-      Longitude =  currentPosition.longitude;
+      Longitude = currentPosition.longitude;
 
       List<Placemark> placemarks =
           await placemarkFromCoordinates(Latitude, Longitude);
@@ -159,13 +159,14 @@ class _DonatePageState extends State<DonatePage> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  onPressed: () => getCurrentPosition(),
-                  child: const Text("Location"),
-                ),
+                // ElevatedButton(
+                //   onPressed: () => getCurrentPosition(),
+                //   child: const Text("Location"),
+                // ),
                 ElevatedButton(
                   child: const Text('Create'),
                   onPressed: () async {
+                    await getCurrentPosition();
                     final String foodType = _foodTypeController.text;
                     final String donor = _donorController.text;
                     final String pDate = _pDateController.text;

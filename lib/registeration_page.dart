@@ -83,181 +83,189 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 194, 193, 191),
         //backgroundColor: Colors.grey[300],
-        body: SafeArea(
+        body: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/g.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Center(
                 child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  // Image.asset(
+                  //   'assets/images/logoo.png',
+                  //   height: 200,
+                  //   width: 200,
+                  //   scale: 0.5,
+                  // ),
+                  const SizedBox(height: 250),
+                  Text(
+                    'Register',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      //fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Email ID',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 35),
+                  // password
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          controller: passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Password',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 35),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          controller: passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Confirm password',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 7),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-              Image.asset(
-                'assets/images/logoo.png',
-                height: 200,
-                width: 200,
-                scale: 0.5,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Register',
-                style: GoogleFonts.montserrat(
-                  fontSize: 40,
-                  //fontWeight: FontWeight.bold
-                ),
-              ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Email ID',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              // password
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Password',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Confirm password',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 7),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((value) {
-                        {
-                          postDetailsToFirestore(emailController.text, "Donor");
-                        }
-                        Navigator.pushNamed(context, "HomePage");
-                      });
-                    },
-                    child: const Text(
-                      ' SIGN UP as a DONOR ',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      var user = _auth.currentUser;
-                      getCurrentPosition();
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((value) async {
-                        {
-                          Map<String, double> location =
-                              await getCurrentPosition();
-                          await _users.doc(user!.uid).set({
-                            "Email": emailController.text,
-                            "Roll": "NGO",
-                            "rCoordinates": GeoPoint(
-                                location['Latitude']!, location['Longitude']!)
+                      TextButton(
+                        onPressed: () {
+                          FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text)
+                              .then((value) {
+                            {
+                              postDetailsToFirestore(
+                                  emailController.text, "Donor");
+                            }
+                            Navigator.pushNamed(context, "HomePage");
                           });
-                          //postDetailsToFirestore(emailController.text, "NGO");
-                        }
-                        Navigator.pushNamed(context, "HomePage");
-                      });
-                      // Map<String, double> location = await getCurrentPosition();
-                    },
-                    child: const Text(
-                      ' SIGN UP as a NGO ',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                        },
+                        child: const Text(
+                          ' SIGN UP as a DONOR ',
+                          style: TextStyle(
+                            color: const Color(0xff072A6C),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     TextButton(
-              //       onPressed: () {
-              //         FirebaseAuth.instance
-              //             .createUserWithEmailAndPassword(
-              //                 email: emailController.text,
-              //                 password: passwordController.text)
-              //             .then((value) {
-              //           {
-              //             postDetailsToFirestore(emailController.text, "Admin");
-              //           }
-              //           Navigator.pushNamed(context, "Adminpage");
-              //         });
-              //       },
-              //       child: const Text(
-              //         ' SIGN UP as a Admin ',
-              //         style: TextStyle(
-              //           color: Colors.blue,
-              //           fontWeight: FontWeight.bold,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // )
-            ]))));
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          var user = _auth.currentUser;
+                          getCurrentPosition();
+                          FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text)
+                              .then((value) async {
+                            {
+                              Map<String, double> location =
+                                  await getCurrentPosition();
+                              await _users.doc(user!.uid).set({
+                                "Email": emailController.text,
+                                "Roll": "NGO",
+                                "rCoordinates": GeoPoint(location['Latitude']!,
+                                    location['Longitude']!)
+                              });
+                              //postDetailsToFirestore(emailController.text, "NGO");
+                            }
+                            Navigator.pushNamed(context, "HomePage");
+                          });
+                          // Map<String, double> location = await getCurrentPosition();
+                        },
+                        child: const Text(
+                          ' SIGN UP as a NGO ',
+                          style: TextStyle(
+                            color: const Color(0xff072A6C),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     TextButton(
+                  //       onPressed: () {
+                  //         FirebaseAuth.instance
+                  //             .createUserWithEmailAndPassword(
+                  //                 email: emailController.text,
+                  //                 password: passwordController.text)
+                  //             .then((value) {
+                  //           {
+                  //             postDetailsToFirestore(emailController.text, "Admin");
+                  //           }
+                  //           Navigator.pushNamed(context, "Adminpage");
+                  //         });
+                  //       },
+                  //       child: const Text(
+                  //         ' SIGN UP as a Admin ',
+                  //         style: TextStyle(
+                  //           color: Colors.blue,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // )
+                ]))));
   }
 }

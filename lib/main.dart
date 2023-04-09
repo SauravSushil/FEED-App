@@ -9,7 +9,8 @@ import 'home_page.dart';
 import 'maps.dart';
 import 'Donatepage.dart';
 import 'DonateHome.dart';
-import 'admin.dart';
+import 'adminngo.dart';
+import 'admindonor.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,8 +37,10 @@ class FEED extends StatelessWidget {
         "ReceiverPage": (context) => const ReceiverPage(),
         "DonationsPage": (context) => const DonationsPage(),
         "MapsPage": (context) => MapsPage(),
-        "AdminPage": (context) => Adminpage(),
-        "HistoryPage" : (context) => const HistoryPage()
+        "AdminPage": (context) => Adminngopage(),
+        "HistoryPage": (context) => const HistoryPage(),
+        "Adminngo": (context) => Adminngopage(),
+        "Admindonor": (context) => Admindonorpage()
       },
     );
   }
