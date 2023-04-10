@@ -1,4 +1,5 @@
 import 'package:Feed/history_page.dart';
+import 'package:Feed/mStone_page.dart';
 import 'package:Feed/receiver_page.dart';
 import 'package:flutter/material.dart';
 import 'donations_page.dart';
@@ -41,6 +42,7 @@ class FEED extends StatelessWidget {
         "MapsPage": (context) => MapsPage(),
         "AdminPage": (context) => Adminngopage(),
         "HistoryPage": (context) => const HistoryPage(),
+        "MilestonePage": (context) => const MileStonePage(),
         "Adminngo": (context) => Adminngopage(),
         "Admindonor": (context) => Admindonorpage(),
         "dlog": (context) => const dlog()
