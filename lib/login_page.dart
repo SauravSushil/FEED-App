@@ -1,5 +1,5 @@
 import 'package:Feed/DonateHome.dart';
-import 'package:Feed/adminngo.dart';
+import 'package:Feed/adminNgo.dart';
 import 'package:Feed/home_page.dart';
 import 'package:Feed/receiver_page.dart';
 import 'package:Feed/registeration_page.dart';
@@ -208,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 170),
                     child: Container(
-                      padding: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
                           color: const Color(0xff072A6C),
                           borderRadius: BorderRadius.circular(10)),

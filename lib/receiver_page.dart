@@ -18,9 +18,9 @@ class _ReceiverPageState extends State<ReceiverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[700],
+      backgroundColor: const Color(0xffFFFCF2),
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: const Color(0xff04724D),
         title: const Center(child: Text("FEED")),
       ),
       drawer: Drawer(
@@ -58,14 +58,15 @@ class _ReceiverPageState extends State<ReceiverPage> {
                   if (documentSnapshot.get("availability") == "Yes") {
                     return Card(
                         margin: const EdgeInsets.all(10),
+                        shadowColor: const Color(0xff072A6C),
+                        //color: Colors.white,
                         child: ExpansionTile(
                           title: Text(documentSnapshot["Food Type"]),
                           subtitle: Text(
                               "Plates: ${documentSnapshot["Food Amount"].toString()}"),
                           expandedAlignment: Alignment.centerLeft,
-                          childrenPadding:
-                              const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                          backgroundColor: Colors.grey[300],
+                          childrenPadding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                          //backgroundColor: Colors.grey[300],
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,6 +116,8 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                   await _posts.doc(documentSnapshot.id).update(
                                       {"availability": "No", "NGO": user});
                                 },
+                                style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff072A6C))),
                                 child: const Text("Accept"))
                           ],
                         ));
@@ -208,7 +211,9 @@ class _ReceiverPageState extends State<ReceiverPage> {
                           ],
                         ));
                   }
-                  return null;
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 });
           }
 

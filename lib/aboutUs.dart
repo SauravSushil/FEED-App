@@ -13,9 +13,9 @@ class _aboutUsPageState extends State<aboutUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[700],
+        backgroundColor: const Color(0xffFFFCF2),
         appBar: AppBar(
-          backgroundColor: Colors.grey[900],
+          backgroundColor: const Color(0xff04724D),
           title: const Center(
               child: Text("FEED")
           ),
