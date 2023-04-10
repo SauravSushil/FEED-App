@@ -41,8 +41,8 @@ class FEED extends StatelessWidget {
         "DonationsPage": (context) => const DonationsPage(),
         "MapsPage": (context) => MapsPage(),
         "AdminPage": (context) => Adminngopage(),
-        "HistoryPage": (context) => const HistoryPage(),
         "MilestonePage": (context) => const MileStonePage(),
+        "HistoryPage": (context) => const HistoryPage(),
         "Adminngo": (context) => Adminngopage(),
         "Admindonor": (context) => Admindonorpage(),
         "dlog": (context) => const dlog()

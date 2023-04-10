@@ -54,18 +54,20 @@ class _ReceiverPageState extends State<ReceiverPage> {
             return ListView.builder(
                 itemCount: streamSnapshot.data!.docs.length, //number of rows
                 itemBuilder: (context, index) {
-                  final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                  final DocumentSnapshot documentSnapshot =
+                      streamSnapshot.data!.docs[index];
                   if (documentSnapshot.get("availability") == "Yes") {
                     return Card(
                         margin: const EdgeInsets.all(10),
-                        shadowColor: const Color(0xff072A6C),
+                        shadowColor: Color.fromARGB(255, 140, 172, 231),
                         //color: Colors.white,
                         child: ExpansionTile(
                           title: Text(documentSnapshot["Food Type"]),
                           subtitle: Text(
                               "Plates: ${documentSnapshot["Food Amount"].toString()}"),
                           expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                          childrenPadding:
+                              const EdgeInsets.fromLTRB(15, 0, 15, 20),
                           //backgroundColor: Colors.grey[300],
                           children: [
                             Column(
@@ -117,12 +119,13 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                       {"availability": "No", "NGO": user});
                                 },
                                 style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll<Color>(Color(0xff072A6C))),
+                                    backgroundColor:
+                                        MaterialStatePropertyAll<Color>(
+                                            Color(0xff072A6C))),
                                 child: const Text("Accept"))
                           ],
                         ));
-                  }
-                  else if (documentSnapshot.get("availability") == "No" &&
+                  } else if (documentSnapshot.get("availability") == "No" &&
                       documentSnapshot.get("NGO") == user) {
                     return Card(
                         margin: const EdgeInsets.all(10),
@@ -132,7 +135,8 @@ class _ReceiverPageState extends State<ReceiverPage> {
                           subtitle: Text(
                               "Plates: ${documentSnapshot["Food Amount"].toString()}"),
                           expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                          childrenPadding:
+                              const EdgeInsets.fromLTRB(15, 0, 15, 20),
                           backgroundColor: Colors.greenAccent,
                           children: [
                             Column(
@@ -189,8 +193,12 @@ class _ReceiverPageState extends State<ReceiverPage> {
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () async {
-                                          await _posts.doc(documentSnapshot.id).update(
-                                              {"availability": "Yes", "NGO": "None"});
+                                          await _posts
+                                              .doc(documentSnapshot.id)
+                                              .update({
+                                            "availability": "Yes",
+                                            "NGO": "None"
+                                          });
                                           if (!context.mounted) return;
                                           Navigator.of(context).pop();
                                         },
