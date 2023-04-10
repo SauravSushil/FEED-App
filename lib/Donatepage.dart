@@ -167,6 +167,7 @@ class _DonatePageState extends State<DonatePage> {
                   child: const Text('Create'),
                   onPressed: () async {
                     await getCurrentPosition();
+
                     final String foodType = _foodTypeController.text;
                     final String donor = _donorController.text;
                     final String pDate = _pDateController.text;

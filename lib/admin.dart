@@ -107,7 +107,9 @@ class _AdminState extends State<AdminPage> {
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
                       child: TextButton(
-                        onPressed: () async {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, "dlog");
+                        },
                         child: Text(
                           'All Active Donations',
                           style: GoogleFonts.montserrat(

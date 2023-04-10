@@ -11,6 +11,7 @@ import 'Donatepage.dart';
 import 'DonateHome.dart';
 import 'adminngo.dart';
 import 'admindonor.dart';
+import 'dlog.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class FEED extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: const LoginPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       initialRoute: "LoginPage",
@@ -40,7 +42,8 @@ class FEED extends StatelessWidget {
         "AdminPage": (context) => Adminngopage(),
         "HistoryPage": (context) => const HistoryPage(),
         "Adminngo": (context) => Adminngopage(),
-        "Admindonor": (context) => Admindonorpage()
+        "Admindonor": (context) => Admindonorpage(),
+        "dlog": (context) => const dlog()
       },
     );
   }
