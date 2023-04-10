@@ -9,6 +9,7 @@ import 'maps.dart';
 import 'Donatepage.dart';
 import 'DonateHome.dart';
 import 'admin.dart';
+import 'NewHome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class FEED extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: "LoginPage",
       routes: {
         "LoginPage": (context) => const LoginPage(),
@@ -35,7 +36,8 @@ class FEED extends StatelessWidget {
         "ReceiverPage": (context) => const ReceiverPage(),
         "DonationsPage": (context) => const DonationsPage(),
         "MapsPage": (context) => MapsPage(),
-        "Adminpage": (context) => Adminpage()
+        "Adminpage": (context) => Adminpage(),
+        "NewHome": (context) => const NewHome(),
       },
     );
   }

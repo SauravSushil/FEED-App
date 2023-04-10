@@ -2,6 +2,7 @@
 // connect to database
 // add data entered by the user on this page to the database
 
+import 'package:Feed/Services/notif_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,6 +68,7 @@ class DonatePage extends StatefulWidget {
 }
 
 class _DonatePageState extends State<DonatePage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final CollectionReference _posts =
       FirebaseFirestore.instance.collection("Posts");
 
@@ -93,7 +95,7 @@ class _DonatePageState extends State<DonatePage> {
       Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
       Latitude = currentPosition.latitude;
-      Longitude =  currentPosition.longitude;
+      Longitude = currentPosition.longitude;
 
       List<Placemark> placemarks =
           await placemarkFromCoordinates(Latitude, Longitude);
@@ -115,93 +117,159 @@ class _DonatePageState extends State<DonatePage> {
         context: context,
         builder: (BuildContext ctx) {
           return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _foodTypeController,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(labelText: 'Food Type'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _foodAmtController,
-                  decoration: const InputDecoration(
-                    labelText: 'Food Amount',
-                  ),
-                ),
-                TextField(
-                  controller: _donorController,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(labelText: 'Donor'),
-                ),
-                TextField(
-                  controller: _phNumController,
-                  decoration: const InputDecoration(labelText: 'Phone Number'),
-                ),
-                TextField(
-                  controller: _pTimeController,
-                  decoration: const InputDecoration(labelText: 'Pickup Time'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _pDateController,
-                  decoration: const InputDecoration(labelText: 'Pickup Date'),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () => getCurrentPosition(),
-                  child: const Text("Location"),
-                ),
-                ElevatedButton(
-                  child: const Text('Create'),
-                  onPressed: () async {
-                    final String foodType = _foodTypeController.text;
-                    final String donor = _donorController.text;
-                    final String pDate = _pDateController.text;
-                    final pTime = _pTimeController.text;
-                    final String phNum = _phNumController.text;
-                    final double? foodAmt =
-                        double.tryParse(_foodAmtController.text);
-                    if (foodAmt != null) {
-                      Map<String, double> location = await getCurrentPosition();
-                      await _posts.add({
-                        "Food Type": foodType,
-                        "Food Amount": foodAmt,
-                        "Donor": donor,
-                        "pTime": pTime,
-                        "pDate": pDate,
-                        "phNum": phNum,
-                        "pAddress": Address,
-                        "availability": "Yes",
-                        "NGO": "None",
-                        "dCoordinates": GeoPoint(
-                            location['Latitude']!, location['Longitude']!),
-                      });
-
-                      _foodTypeController.text = '';
-                      _foodAmtController.text = '';
-                      _donorController.text = '';
-                      _pDateController.text = '';
-                      _pTimeController.text = '';
-                      _phNumController.text = '';
-                      Navigator.of(context).pop();
-                    }
-                  },
-                )
-              ],
-            ),
-          );
+              padding: EdgeInsets.only(
+                  top: 20,
+                  left: 20,
+                  right: 20,
+                  bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                          controller: _donorController,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: const InputDecoration(labelText: 'Donor'),
+                          keyboardType: TextInputType.name,
+                          onChanged: (value) {
+                            _formKey.currentState?.validate();
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter Donor's name";
+                            } else if (!RegExp(r'[A-Za-z][A-Za-z0-9_]$')
+                                .hasMatch(value)) {
+                              return "Please Enter Valid Donor name";
+                            }
+                          }),
+                      TextFormField(
+                          controller: _phNumController,
+                          decoration:
+                              const InputDecoration(labelText: 'Phone Number'),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            _formKey.currentState?.validate();
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter a Phone Number";
+                            } else if (!RegExp(
+                                    r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                .hasMatch(value)) {
+                              return "Please Enter a Valid Phone Number";
+                            }
+                          }),
+                      TextFormField(
+                          controller: _foodTypeController,
+                          textCapitalization: TextCapitalization.words,
+                          decoration:
+                              const InputDecoration(labelText: 'Food Type'),
+                          keyboardType: TextInputType.text,
+                          onChanged: (value) {
+                            _formKey.currentState?.validate();
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter food type";
+                            }
+                          }),
+                      TextFormField(
+                          controller: _foodAmtController,
+                          decoration: const InputDecoration(
+                            labelText: 'Food Amount(In plates)',
+                          ),
+                          keyboardType: const TextInputType.numberWithOptions(),
+                          onChanged: (value) {
+                            _formKey.currentState?.validate();
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter Food Amount";
+                            } else if (!RegExp(
+                                    r'^\s*([1-9]|1[0-9]|3[0-9])?\s*$')
+                                .hasMatch(value)) {
+                              return "Please Enter a Valid food amount";
+                            }
+                          }),
+                      TextFormField(
+                          controller: _pTimeController,
+                          decoration:
+                              const InputDecoration(labelText: 'Pickup Time'),
+                          onChanged: (value) {
+                            _formKey.currentState?.validate();
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please Enter the time";
+                            }
+                          }),
+                      TextFormField(
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        controller: _pDateController,
+                        decoration:
+                            const InputDecoration(labelText: 'Pickup Date'),
+                        onChanged: (value) {
+                          _formKey.currentState?.validate();
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please Enter the date";
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () => getCurrentPosition(),
+                        child: const Text("Location"),
+                      ),
+                      ElevatedButton(
+                        child: const Text('Create'),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            NotificationService().showNotification(
+                                title: 'Sample title', body: 'It works');
+                            final String foodType = _foodTypeController.text;
+                            final String donor = _donorController.text;
+                            final String pDate = _pDateController.text;
+                            final pTime = _pTimeController.text;
+                            final String phNum = _phNumController.text;
+                            final double? foodAmt =
+                                double.tryParse(_foodAmtController.text);
+                            if (foodAmt != null) {
+                              Map<String, double> location =
+                                  await getCurrentPosition();
+                              await _posts.add({
+                                "Food Type": foodType,
+                                "Food Amount": foodAmt,
+                                "Donor": donor,
+                                "pTime": pTime,
+                                "pDate": pDate,
+                                "phNum": phNum,
+                                "pAddress": Address,
+                                "availability": "Yes",
+                                "NGO": "None",
+                                "dCoordinates": GeoPoint(location['Latitude']!,
+                                    location['Longitude']!),
+                              });
+                              _foodTypeController.text = '';
+                              _foodAmtController.text = '';
+                              _donorController.text = '';
+                              _pDateController.text = '';
+                              _pTimeController.text = '';
+                              _phNumController.text = '';
+                              // ignore: use_build_context_synchronously
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        },
+                      )
+                    ],
+                  )));
         });
   }
 

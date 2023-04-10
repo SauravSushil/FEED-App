@@ -1,4 +1,5 @@
 import 'package:Feed/DonateHome.dart';
+import 'package:Feed/NewHome.dart';
 import 'package:Feed/admin.dart';
 import 'package:Feed/home_page.dart';
 import 'package:Feed/receiver_page.dart';
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const DonateHome(),
+                builder: (context) => const NewHome(),
               ),
             );
           } else if (item_data["Roll"] == "Admin") {
