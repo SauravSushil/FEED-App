@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:Feed/Donatepage.dart';
+import 'package:Feed/donatePage.dart';
 
 class DonatePage extends StatefulWidget {
   const DonatePage({super.key});
@@ -117,6 +117,7 @@ class _DonatePageState extends State<DonatePage> {
         context: context,
         builder: (BuildContext ctx) {
           return Padding(
+<<<<<<< HEAD:lib/Donatepage.dart
               padding: EdgeInsets.only(
                   top: 20,
                   left: 20,
@@ -270,6 +271,96 @@ class _DonatePageState extends State<DonatePage> {
                       )
                     ],
                   )));
+=======
+            padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _foodTypeController,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: 'Food Type'),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _foodAmtController,
+                  decoration: const InputDecoration(
+                    labelText: 'Food Amount',
+                  ),
+                ),
+                TextField(
+                  controller: _donorController,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: 'Donor'),
+                ),
+                TextField(
+                  controller: _phNumController,
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
+                ),
+                TextField(
+                  controller: _pTimeController,
+                  decoration: const InputDecoration(labelText: 'Pickup Time'),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _pDateController,
+                  decoration: const InputDecoration(labelText: 'Pickup Date'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // ElevatedButton(
+                //   onPressed: () => getCurrentPosition(),
+                //   child: const Text("Location"),
+                // ),
+                ElevatedButton(
+                  child: const Text('Create'),
+                  onPressed: () async {
+                    await getCurrentPosition();
+                    final String foodType = _foodTypeController.text;
+                    final String donor = _donorController.text;
+                    final String pDate = _pDateController.text;
+                    final pTime = _pTimeController.text;
+                    final String phNum = _phNumController.text;
+                    final double? foodAmt =
+                        double.tryParse(_foodAmtController.text);
+                    if (foodAmt != null) {
+                      Map<String, double> location = await getCurrentPosition();
+                      await _posts.add({
+                        "Food Type": foodType,
+                        "Food Amount": foodAmt,
+                        "Donor": donor,
+                        "pTime": pTime,
+                        "pDate": pDate,
+                        "phNum": phNum,
+                        "pAddress": Address,
+                        "availability": "Yes",
+                        "NGO": "None",
+                        "dCoordinates": GeoPoint(
+                            location['Latitude']!, location['Longitude']!),
+                      });
+
+                      _foodTypeController.text = '';
+                      _foodAmtController.text = '';
+                      _donorController.text = '';
+                      _pDateController.text = '';
+                      _pTimeController.text = '';
+                      _phNumController.text = '';
+                      Navigator.of(context).pop();
+                    }
+                  },
+                )
+              ],
+            ),
+          );
+>>>>>>> 1ff2897f6ed14192341f4fcba3191dc463db0a83:lib/donatePage.dart
         });
   }
 

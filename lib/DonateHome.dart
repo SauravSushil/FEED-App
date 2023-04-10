@@ -1,7 +1,9 @@
 import 'package:Feed/aboutUs.dart';
+import 'package:Feed/history_page.dart';
 import 'package:Feed/login_page.dart';
+import 'package:Feed/mStone_page.dart';
 import 'package:flutter/material.dart';
-import 'Donatepage.dart';
+import 'donatePage.dart';
 import 'package:Feed/donations_page.dart';
 
 class DonateHome extends StatefulWidget {
@@ -17,7 +19,7 @@ class _DonateHomeState extends State<DonateHome> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Welcome to FEED'),
-        backgroundColor: Colors.grey[800],
+        backgroundColor: const Color(0xff04724D),
       ),
       //backgroundColor: Color.fromARGB(255, 207, 207, 207),
       drawer: Drawer(
@@ -87,7 +89,7 @@ class _DonateHomeState extends State<DonateHome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DonationsPage(),
+                        builder: (context) => const HistoryPage(),
                       ));
                 },
                 splashColor: Colors.grey,
@@ -134,6 +136,37 @@ class _DonateHomeState extends State<DonateHome> {
                         'About Us',
                         style: TextStyle(fontSize: 40),
                         textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            //Btn 4
+            Card(
+              margin: const EdgeInsets.all(8.0),
+              color: Colors.deepPurpleAccent,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MileStonePage(),
+                      ));
+                },
+                splashColor: Colors.grey,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Icon(
+                        Icons.history_sharp,
+                        size: 40,
+                      ),
+                      Text(
+                        'Milestone',
+                        style: TextStyle(fontSize: 40),
                       )
                     ],
                   ),

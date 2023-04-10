@@ -1,64 +1,125 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class Adminpage extends StatefulWidget {
+class AdminPage extends StatefulWidget {
+  const AdminPage({Key? key}) : super(key: key);
+
   @override
-  _AdminpageState createState() => _AdminpageState();
+  State<AdminPage> createState() => _AdminState();
 }
 
-class _AdminpageState extends State<Adminpage> {
-  late GoogleMapController mapController;
-  List<Marker> markers = [];
+class _AdminState extends State<AdminPage> {
+  //final user = FirebaseAuth.instance.currentUser?.email;
+  //final CollectionReference _posts =
+  //  FirebaseFirestore.instance.collection("Posts");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        markers: Set<Marker>.of(markers),
-        initialCameraPosition: CameraPosition(
-          target: LatLng(19.076090, 72.877426),
-          zoom: 9,
+      backgroundColor: const Color(0xffFFFCF2),
+      appBar: AppBar(
+          backgroundColor: const Color(0xff04724D),
+          title: Text('                             Admin')
+          //const Center(child: Text("Admin")),
+          ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ));
+              },
+            ),
+          ],
+        ),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 120),
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff072A6C),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "Admindonor");
+                        },
+                        child: Text(
+                          'Donor Log',
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 120),
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff072A6C),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "Adminngo");
+                        },
+                        child: Text(
+                          'Receiver Log',
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 120),
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff072A6C),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () async {},
+                        child: Text(
+                          'All Active Donations',
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
         ),
       ),
     );
-  }
-
-  void _onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('Posts').get();
-    await FirebaseFirestore.instance.collection('Users').get();
-
-    snapshot.docs.forEach((doc) {
-      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
-      if (data != null) {
-        GeoPoint? geoPoint = data['dCoordinates'] as GeoPoint?;
-        if (geoPoint?.latitude != null && geoPoint?.longitude != null) {
-          double latitude = geoPoint!.latitude;
-          double longitude = geoPoint.longitude;
-          Marker marker = Marker(
-            markerId: MarkerId(doc.id),
-            position: LatLng(latitude, longitude),
-            infoWindow: InfoWindow(title: data['Donor'] ?? ''),
-          );
-          markers.add(marker);
-        }
-      }
-      GeoPoint? geoPoint = data!['rCoordinates'] as GeoPoint?;
-      if (geoPoint?.latitude != null && geoPoint?.longitude != null) {
-        double latitude = geoPoint!.latitude;
-        double longitude = geoPoint.longitude;
-        Marker marker = Marker(
-          markerId: MarkerId(doc.id),
-          position: LatLng(latitude, longitude),
-          infoWindow: InfoWindow(title: data['Donor'] ?? ''),
-        );
-        markers.add(marker);
-      }
-    });
-
-    setState(() {});
   }
 }
