@@ -45,6 +45,8 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   syncfusion_flutter_charts: ^21.1.38
+  blurrycontainer: ^1.0.2
+  flutter_screenutil: ^5.7.0
 
 dev_dependencies:
   flutter_test:

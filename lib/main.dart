@@ -7,7 +7,7 @@ import 'registeration_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'home_page.dart';
 import 'maps.dart';
-import 'Donatepage.dart';
+import 'donatePage.dart';
 import 'DonateHome.dart';
 import 'adminngo.dart';
 import 'admindonor.dart';

@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:Feed/Donatepage.dart';
+import 'package:Feed/donatePage.dart';
 
 class DonatePage extends StatefulWidget {
   const DonatePage({super.key});
