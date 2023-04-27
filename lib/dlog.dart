@@ -59,6 +59,8 @@ class _dlogState extends State<dlog> {
                   if (documentSnapshot.get("availability") == "Yes") {
                     return Card(
                         margin: const EdgeInsets.all(10),
+                        shadowColor: Color.fromARGB(255, 140, 172, 231),
+                        //color: Colors.white,
                         child: ExpansionTile(
                           title: Text(documentSnapshot["Food Type"]),
                           subtitle: Text(
@@ -66,7 +68,7 @@ class _dlogState extends State<dlog> {
                           expandedAlignment: Alignment.centerLeft,
                           childrenPadding:
                               const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                          backgroundColor: Colors.grey[300],
+                          //backgroundColor: Colors.grey[300],
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,12 +113,6 @@ class _dlogState extends State<dlog> {
                                     )),
                               ],
                             ),
-                            // ElevatedButton(
-                            //     onPressed: () async {
-                            //       await _posts.doc(documentSnapshot.id).update(
-                            //           {"availability": "No", "NGO": user});
-                            //     },
-                            //     child: const Text("Accept"))
                           ],
                         ));
                   } else if (documentSnapshot.get("availability") == "No" &&
@@ -176,44 +172,12 @@ class _dlogState extends State<dlog> {
                                     )),
                               ],
                             ),
-                            // ElevatedButton(
-                            //   onPressed: () {
-                            //     showDialog(
-                            //       context: context,
-                            //       builder: (ctx) => AlertDialog(
-                            //         title: const Text("Are you sure?"),
-                            //         content: const Text(
-                            //             "This will remove your reservation for the post. Are you sure?"),
-                            //         actions: <Widget>[
-                            //           TextButton(
-                            //             onPressed: () async {
-                            //               await _posts
-                            //                   .doc(documentSnapshot.id)
-                            //                   .update({
-                            //                 "availability": "Yes",
-                            //                 "NGO": "None"
-                            //               });
-                            //               if (!context.mounted) return;
-                            //               Navigator.of(context).pop();
-                            //             },
-                            //             child: const Text("Yes"),
-                            //           ),
-                            //           TextButton(
-                            //             onPressed: () {
-                            //               Navigator.of(ctx).pop();
-                            //             },
-                            //             child: const Text("No"),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     );
-                            //   },
-                            //   child: const Text("Un-Accept Post"),
-                            // )
                           ],
                         ));
                   }
-                  return null;
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 });
           }
 
