@@ -13,13 +13,10 @@ class MileStonePage extends StatefulWidget {
 }
 
 class _MileStonePageState extends State<MileStonePage> {
-  final CollectionReference _posts =
-  FirebaseFirestore.instance.collection("Posts");
-
-  //final int donations = _posts.get("Food Amount");
   //Amount in plates
   int _donations = 4400;
   int _donationsAccepted = 2000;
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +58,7 @@ class _MileStonePageState extends State<MileStonePage> {
                       //remaining amount needed to reach the goal).
                       dataSource: <ChartData>[
                         ChartData('Total Donations', _donations),
-                        ChartData('Wasted', _donations - _donationsAccepted),
+                        ChartData('Saved', _donationsAccepted),
                         //The dataSource property of the PieSeries widget is set to this list of ChartData objects.
 
                       ],
@@ -120,6 +117,5 @@ class _MileStonePageState extends State<MileStonePage> {
 class ChartData {
   final String category;
   final int value;
-
   ChartData(this.category, this.value);
 }

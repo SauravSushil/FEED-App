@@ -18,9 +18,9 @@ class _dlogState extends State<dlog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[700],
+      backgroundColor: const Color(0xffFFFCF2),
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: const Color(0xff04724D),
         title: const Center(child: Text("FEED")),
       ),
       drawer: Drawer(
@@ -111,12 +111,12 @@ class _dlogState extends State<dlog> {
                                     )),
                               ],
                             ),
-                            ElevatedButton(
-                                onPressed: () async {
-                                  await _posts.doc(documentSnapshot.id).update(
-                                      {"availability": "No", "NGO": user});
-                                },
-                                child: const Text("Accept"))
+                            // ElevatedButton(
+                            //     onPressed: () async {
+                            //       await _posts.doc(documentSnapshot.id).update(
+                            //           {"availability": "No", "NGO": user});
+                            //     },
+                            //     child: const Text("Accept"))
                           ],
                         ));
                   } else if (documentSnapshot.get("availability") == "No" &&
@@ -176,40 +176,40 @@ class _dlogState extends State<dlog> {
                                     )),
                               ],
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    title: const Text("Are you sure?"),
-                                    content: const Text(
-                                        "This will remove your reservation for the post. Are you sure?"),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () async {
-                                          await _posts
-                                              .doc(documentSnapshot.id)
-                                              .update({
-                                            "availability": "Yes",
-                                            "NGO": "None"
-                                          });
-                                          if (!context.mounted) return;
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text("Yes"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop();
-                                        },
-                                        child: const Text("No"),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: const Text("Un-Accept Post"),
-                            )
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     showDialog(
+                            //       context: context,
+                            //       builder: (ctx) => AlertDialog(
+                            //         title: const Text("Are you sure?"),
+                            //         content: const Text(
+                            //             "This will remove your reservation for the post. Are you sure?"),
+                            //         actions: <Widget>[
+                            //           TextButton(
+                            //             onPressed: () async {
+                            //               await _posts
+                            //                   .doc(documentSnapshot.id)
+                            //                   .update({
+                            //                 "availability": "Yes",
+                            //                 "NGO": "None"
+                            //               });
+                            //               if (!context.mounted) return;
+                            //               Navigator.of(context).pop();
+                            //             },
+                            //             child: const Text("Yes"),
+                            //           ),
+                            //           TextButton(
+                            //             onPressed: () {
+                            //               Navigator.of(ctx).pop();
+                            //             },
+                            //             child: const Text("No"),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     );
+                            //   },
+                            //   child: const Text("Un-Accept Post"),
+                            // )
                           ],
                         ));
                   }
