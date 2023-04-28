@@ -70,7 +70,7 @@ class _AdminState extends State<AdminPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Padding(
@@ -94,7 +94,7 @@ class _AdminState extends State<AdminPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Padding(
@@ -111,6 +111,30 @@ class _AdminState extends State<AdminPage> {
                         },
                         child: Text(
                           'All Active Donations',
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 120),
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff072A6C),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "allUsers");
+                        },
+                        child: Text(
+                          'All Users',
                           style: GoogleFonts.montserrat(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),

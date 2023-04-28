@@ -219,9 +219,6 @@ class _ReceiverPageState extends State<ReceiverPage> {
                           ],
                         ));
                   }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
                 });
           }
 

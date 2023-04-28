@@ -113,16 +113,6 @@ class _dlogState extends State<dlog> {
                                     )),
                               ],
                             ),
-                            ElevatedButton(
-                                onPressed: () async {
-                                  await _posts.doc(documentSnapshot.id).update(
-                                      {"availability": "No", "NGO": user});
-                                },
-                                style: const ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll<Color>(
-                                            Color(0xff072A6C))),
-                                child: const Text("Accept"))
                           ],
                         ));
                   } else if (documentSnapshot.get("availability") == "No" &&
@@ -182,40 +172,6 @@ class _dlogState extends State<dlog> {
                                     )),
                               ],
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    title: const Text("Are you sure?"),
-                                    content: const Text(
-                                        "This will remove your reservation for the post. Are you sure?"),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () async {
-                                          await _posts
-                                              .doc(documentSnapshot.id)
-                                              .update({
-                                            "availability": "Yes",
-                                            "NGO": "None"
-                                          });
-                                          if (!context.mounted) return;
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text("Yes"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop();
-                                        },
-                                        child: const Text("No"),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: const Text("Un-Accept Post"),
-                            )
                           ],
                         ));
                   }

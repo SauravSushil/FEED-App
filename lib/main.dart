@@ -1,3 +1,4 @@
+import 'package:Feed/allUsers.dart';
 import 'package:Feed/history_page.dart';
 import 'package:Feed/mStone_page.dart';
 import 'package:Feed/receiver_page.dart';
@@ -49,6 +50,7 @@ class FEED extends StatelessWidget {
         "Admindonor": (context) => Admindonorpage(),
         "dlog": (context) => const dlog(),
         "NewHome": (context) => const NewHome(),
+        "allUsers": (context) => const allUsersPage()
       },
     );
   }
