@@ -27,6 +27,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController confirmpassController = TextEditingController();
   final TextEditingController name = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static var Address;
   static var Latitude;
   static var Longitude;
@@ -101,6 +102,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //   scale: 0.5,
                   // ),
                   const SizedBox(height: 250),
+
                   Text(
                     'Register',
                     style: GoogleFonts.montserrat(
@@ -110,136 +112,184 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Email ID',
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: TextFormField(
+                                    controller: emailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Email ID',
+                                    ),
+                                    onChanged: (value) {
+                                      _formKey.currentState?.validate();
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Please Enter Email";
+                                      } else if (!RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                        return "Please Enter Valid  Email";
+                                      }
+                                    }),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 35),
-                  // password
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Password',
+                          const SizedBox(height: 35),
+                          // password
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Password',
+                                    ),
+                                    onChanged: (value) {
+                                      _formKey.currentState?.validate();
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Please Enter Password";
+                                      }
+                                      //  else if (!RegExp(
+                                      //         r'[A-Za-z][A-Za-z0-9_]$')
+                                      //     .hasMatch(value)) {
+                                      //   return "Please Enter Valid Password";
+                                      // }
+                                    }),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 35),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Confirm password',
+                          const SizedBox(height: 35),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Confirm password',
+                                    ),
+                                    onChanged: (value) {
+                                      _formKey.currentState?.validate();
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Please Enter Password";
+                                      }
+                                      //  else if (!RegExp(
+                                      //         r'[A-Za-z][A-Za-z0-9_]$')
+                                      //     .hasMatch(value)) {
+                                      //   return "Please Enter Valid Password";
+                                      // }
+                                    }),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 7),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text)
-                              .then((value) {
-                            {
-                              postDetailsToFirestore(
-                                  emailController.text, "Donor");
-                            }
-                            Navigator.pushNamed(context, "HomePage");
-                          });
-                        },
-                        child: const Text(
-                          ' SIGN UP as a DONOR ',
-                          style: TextStyle(
-                            color: const Color(0xff072A6C),
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(height: 7),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                            email: emailController.text,
+                                            password: passwordController.text)
+                                        .then((value) {
+                                      {
+                                        postDetailsToFirestore(
+                                            emailController.text, "Donor");
+                                      }
+                                      Navigator.pushNamed(context, "HomePage");
+                                    });
+                                  }
+                                },
+                                child: const Text(
+                                  ' SIGN UP as a DONOR ',
+                                  style: TextStyle(
+                                    color: const Color(0xff072A6C),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () async {
-                          var user = _auth.currentUser;
-                          getCurrentPosition();
-                          FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text)
-                              .then((value) async {
-                            {
-                              Map<String, double> location =
-                                  await getCurrentPosition();
-                              await _users.doc(user!.uid).set({
-                                "Email": emailController.text,
-                                "Roll": "NGO",
-                                "rCoordinates": GeoPoint(location['Latitude']!,
-                                    location['Longitude']!)
-                              });
-                              //postDetailsToFirestore(emailController.text, "NGO");
-                            }
-                            Navigator.pushNamed(context, "HomePage");
-                          });
-                          // Map<String, double> location = await getCurrentPosition();
-                        },
-                        child: const Text(
-                          ' SIGN UP as a NGO ',
-                          style: TextStyle(
-                            color: const Color(0xff072A6C),
-                            fontWeight: FontWeight.bold,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () async {
+                                  var user = _auth.currentUser;
+                                  getCurrentPosition();
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                          email: emailController.text,
+                                          password: passwordController.text)
+                                      .then((value) async {
+                                    {
+                                      Map<String, double> location =
+                                          await getCurrentPosition();
+                                      await _users.doc(user!.uid).set({
+                                        "Email": emailController.text,
+                                        "Roll": "NGO",
+                                        "rCoordinates": GeoPoint(
+                                            location['Latitude']!,
+                                            location['Longitude']!)
+                                      });
+                                      //postDetailsToFirestore(emailController.text, "NGO");
+                                    }
+                                    Navigator.pushNamed(context, "HomePage");
+                                  });
+                                  // Map<String, double> location = await getCurrentPosition();
+                                },
+                                child: const Text(
+                                  ' SIGN UP as a NGO ',
+                                  style: TextStyle(
+                                    color: const Color(0xff072A6C),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
+                        ],
+                      )),
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.center,
                   //   children: [

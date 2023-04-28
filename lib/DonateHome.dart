@@ -1,9 +1,9 @@
+import 'package:Feed/NewHome.dart';
 import 'package:Feed/aboutUs.dart';
 import 'package:Feed/history_page.dart';
+import 'package:Feed/home_page.dart';
 import 'package:Feed/login_page.dart';
-import 'package:Feed/mStone_page.dart';
 import 'package:flutter/material.dart';
-import 'donatePage.dart';
 import 'package:Feed/donations_page.dart';
 
 class DonateHome extends StatefulWidget {
@@ -58,7 +58,7 @@ class _DonateHomeState extends State<DonateHome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DonatePage(),
+                        builder: (context) => const NewHome(),
                       ));
                 },
                 splashColor: Colors.grey,
@@ -152,7 +152,7 @@ class _DonateHomeState extends State<DonateHome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const MileStonePage(),
+                        builder: (context) => const HomePage(),
                       ));
                 },
                 splashColor: Colors.grey,

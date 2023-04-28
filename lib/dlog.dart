@@ -3,14 +3,14 @@ import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ReceiverPage extends StatefulWidget {
-  const ReceiverPage({Key? key}) : super(key: key);
+class dlog extends StatefulWidget {
+  const dlog({Key? key}) : super(key: key);
 
   @override
-  State<ReceiverPage> createState() => _ReceiverPageState();
+  State<dlog> createState() => _dlogState();
 }
 
-class _ReceiverPageState extends State<ReceiverPage> {
+class _dlogState extends State<dlog> {
   final user = FirebaseAuth.instance.currentUser?.email;
   final CollectionReference _posts =
       FirebaseFirestore.instance.collection("Posts");

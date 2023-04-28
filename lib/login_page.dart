@@ -1,10 +1,7 @@
 import 'package:Feed/DonateHome.dart';
-<<<<<<< HEAD
 import 'package:Feed/NewHome.dart';
 import 'package:Feed/admin.dart';
-=======
-import 'package:Feed/adminNgo.dart';
->>>>>>> 1ff2897f6ed14192341f4fcba3191dc463db0a83
+import 'package:Feed/AdminNgo.dart';
 import 'package:Feed/home_page.dart';
 import 'package:Feed/receiver_page.dart';
 import 'package:Feed/registeration_page.dart';
@@ -14,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'admin.dart';
+import 'dlog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -25,6 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   signIn(String email, String password) async {
     try {
@@ -67,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => AdminPage(),
+                builder: (context) => const AdminPage(),
               ),
             );
           } else if (item_data["Roll"] == "NGO") {
@@ -165,99 +164,139 @@ class _LoginPageState extends State<LoginPage> {
                   //     //fontWeight: FontWeight.bold,
                   //     fontSize: 24,
                   //   ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Email ID',
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: TextFormField(
+                                    controller: emailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Email ID',
+                                    ),
+                                    onChanged: (value) {
+                                      _formKey.currentState?.validate();
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Please Enter Username/Email";
+                                      } else if (!RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                        return "Please Enter Valid  Username/Email";
+                                      }
+                                    }),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // password
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Password',
+                          const SizedBox(height: 20),
+                          // password
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Password',
+                                    ),
+                                    onChanged: (value) {
+                                      _formKey.currentState?.validate();
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Please Enter Password";
+                                      }
+                                      //  else if (!RegExp(
+                                      //         r'[A-Za-z][A-Za-z0-9_]$')
+                                      //     .hasMatch(value)) {
+                                      //   return "Please Enter Valid Password";
+                                      // }
+                                    }),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // sign in
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 170),
-                    child: Container(
-                      padding: const EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          color: const Color(0xff072A6C),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () async {
-                            User? user = await signIn(
-                                emailController.text, passwordController.text);
-                            //context: context);
-                            print(user);
-                            // signIn(emailController.text, passwordController.text);
-                          },
-                          child: Text(
-                            'LOGIN',
-                            style: GoogleFonts.montserrat(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                          const SizedBox(height: 20),
+                          // sign in
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 170),
+                            child: Container(
+                              padding: const EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xff072A6C),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: TextButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      User? user = await signIn(
+                                          emailController.text,
+                                          passwordController.text);
+                                      //context: context);
+                                      print(user);
+                                    }
+                                    // User? user = await signIn(
+                                    //     emailController.text,
+                                    //     passwordController.text);
+                                    // //context: context);
+                                    // print(user);
+                                    // signIn(emailController.text, passwordController.text);
+                                  },
+                                  child: Text(
+                                    'LOGIN',
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Not a registered member ? ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "RegistrationPage");
-                        },
-                        child: const Text(
-                          ' Register Now ',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Not a registered member ? ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, "RegistrationPage");
+                                },
+                                child: const Text(
+                                  ' Register Now ',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ))
                 ]))));
   }
 }

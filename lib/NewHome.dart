@@ -1,3 +1,5 @@
+import 'package:Feed/history_page.dart';
+import 'package:Feed/mStone_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -7,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:Feed/aboutUs.dart';
 import 'package:Feed/login_page.dart';
 import 'package:flutter/material.dart';
-import 'Donatepage.dart';
 import 'package:Feed/donations_page.dart';
 
 import 'Services/notif_service.dart';
@@ -20,10 +21,11 @@ class NewHome extends StatefulWidget {
 }
 
 class _NewHomeState extends State<NewHome> {
+  //DateTime date = DateTime(2022, 04, 28);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final CollectionReference _posts =
       FirebaseFirestore.instance.collection("Posts");
-
+  final TextEditingController _dateController = TextEditingController();
   final TextEditingController _foodTypeController = TextEditingController();
   final TextEditingController _foodAmtController = TextEditingController();
   final TextEditingController _donorController = TextEditingController();
@@ -34,6 +36,21 @@ class _NewHomeState extends State<NewHome> {
   static var Address;
   static var Latitude;
   static var Longitude;
+
+  // set selectedDate(DateTime selectedDate) {}
+
+  // Future<Null> _selectDate(BuildContext context) async {
+  // final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2015, 8),
+  //     lastDate: DateTime(2101));
+  // if (picked != null && picked != DateTime.now()) {
+  //   setState(() {
+  //     selectedDate = picked;
+  //   });
+  // }
+  // }
 
   Future<Map<String, double>> getCurrentPosition() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -138,11 +155,11 @@ class _NewHomeState extends State<NewHome> {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please Enter Food Amount";
+                              return "Please Enter a Food Amount";
                             } else if (!RegExp(
-                                    r'^\s*([1-9]|1[0-9]|3[0-9])?\s*$')
+                                    r'^\s*([1-9]|[1-9][0-9]|[1-9][0-9][0-9])?\s*$')
                                 .hasMatch(value)) {
-                              return "Please Enter a Valid food amount";
+                              return "Please Enter a Valid Food Amount";
                             }
                           }),
                       TextFormField(
@@ -154,42 +171,124 @@ class _NewHomeState extends State<NewHome> {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please Enter the time";
+                              return "Please Enter food type";
                             }
                           }),
+
+                      //Text('${date.day}/${date.month}/${date.year}'),
+                      // TextFormField(
+                      //   // keyboardType: const TextInputType.numberWithOptions(
+                      //   //     decimal: true),
+                      //   controller: _pDateController,
+                      //   decoration:
+                      //       const InputDecoration(labelText: 'Pickup Date'),
+                      //   onChanged: (value) {
+                      //     _formKey.currentState?.validate();
+                      //   },
+                      //   validator: (value) {
+                      //     if (value!.isEmpty) {
+                      //       return "Please Enter the date";
+                      //     } else if (!RegExp(
+                      //             r'^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$')
+                      //         .hasMatch(value)) {
+                      //       return "Please Enter a Valid date in dd/mm/yy format";
+                      //     }
+                      //   },
+                      // ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // ElevatedButton(
+                      //   onPressed: () => getCurrentPosition(),
+                      //   child: const Text("Location"),
+                      // ),
+                      const SizedBox(height: 20),
+
+                      Padding(
+                          padding: const EdgeInsets.only(),
+                          child: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                border: Border.all(color: Colors.white10),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: TextButton(
+                              onPressed: _showDatePicker,
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    'Choose Pickup Date',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      backgroundColor:
+                                          Color.fromARGB(255, 214, 213, 213),
+                                      fontWeight: FontWeight.bold,
+                                      height: 2.8,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )),
                       TextFormField(
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
+                        readOnly: true,
                         controller: _pDateController,
-                        decoration:
-                            const InputDecoration(labelText: 'Pickup Date'),
-                        onChanged: (value) {
-                          _formKey.currentState?.validate();
+                        decoration: const InputDecoration(
+                          labelText: 'Confirm Pickup Date',
+                        ),
+                        onTap: () async {
+                          await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2024),
+                          ).then((value) {
+                            if (value != null) {
+                              _pDateController.text = _dateTime.toString();
+                              //DateFormat('yyyy-MM-dd').format(value);
+                            }
+                          });
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Please Enter the date";
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter date.';
                           }
+                          return null;
                         },
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        onPressed: () => getCurrentPosition(),
-                        child: const Text("Location"),
-                      ),
+                      // Text(
+                      //   _dateTime.toString(),
+                      //   style: const TextStyle(fontSize: 20),
+                      // ),
                       ElevatedButton(
                         child: const Text('Create'),
                         onPressed: () async {
+                          getCurrentPosition();
+                          // DateTime _dateTime = DateTime.now();
+                          // void _showDatePicker() {
+                          DateTime _dateTime = DateTime.now();
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2023, 04, 27),
+                                  lastDate: DateTime(2024))
+                              .then((value) =>
+                                  {setState(() => _dateTime = value!)});
+                          // }
+
+                          // // ignore: unnecessary_null_comparison
+                          // if (_dateTime == null) return;
+
+                          // setState(() => date = _dateTime);
                           if (_formKey.currentState!.validate()) {
                             NotificationService().showNotification(
                                 title: 'Sample title', body: 'It works');
                             final String foodType = _foodTypeController.text;
                             final String donor = _donorController.text;
-                            final String pDate = _pDateController.text;
+                            //final String pDate = _pDateController.text;
                             final pTime = _pTimeController.text;
                             final String phNum = _phNumController.text;
+                            final String date = _pDateController.text;
                             final double? foodAmt =
                                 double.tryParse(_foodAmtController.text);
                             if (foodAmt != null) {
@@ -200,7 +299,7 @@ class _NewHomeState extends State<NewHome> {
                                 "Food Amount": foodAmt,
                                 "Donor": donor,
                                 "pTime": pTime,
-                                "pDate": pDate,
+                                "pDate": date,
                                 "phNum": phNum,
                                 "pAddress": Address,
                                 "availability": "Yes",
@@ -225,6 +324,16 @@ class _NewHomeState extends State<NewHome> {
         });
   }
 
+  DateTime _dateTime = DateTime.now();
+  void _showDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime(2024))
+        .then((value) => {setState(() => _dateTime = value!)});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -244,7 +353,18 @@ class _NewHomeState extends State<NewHome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DonationsPage(),
+                        builder: (context) => const HistoryPage(),
+                      ));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title: const Text('Milestones'),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MileStonePage(),
                       ));
                 },
               ),
@@ -302,7 +422,7 @@ class _NewHomeState extends State<NewHome> {
                 Column(
                   children: [
                     const SizedBox(
-                      height: 300,
+                      height: 330,
                     ),
                     Center(
                       child: Text(
@@ -320,13 +440,14 @@ class _NewHomeState extends State<NewHome> {
                       ),
                     ),
                     const SizedBox(
-                      height: 38,
+                      height: 60,
                     ),
                     Text(
                       'Sharing food, spreading love - make a difference with our donation app! Using FEED, we can make a positive impact on society by reducing food waste and helping those in need',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(
-                        fontSize: 22,
+                        fontSize: 18,
+                        //22
                       ),
                     )
                   ],
@@ -339,7 +460,8 @@ class _NewHomeState extends State<NewHome> {
           data: Theme.of(context).copyWith(
               floatingActionButtonTheme: const FloatingActionButtonThemeData(
             extendedSizeConstraints:
-                BoxConstraints.tightFor(height: 60, width: 365),
+                BoxConstraints.tightFor(height: 60, width: 370),
+            //420
           )),
           child: FloatingActionButton.extended(
             backgroundColor: const Color(0xFF072A6C),
